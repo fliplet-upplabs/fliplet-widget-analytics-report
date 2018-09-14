@@ -414,7 +414,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       Fliplet.App.Storage.get('analyticsDataArray')
         .then(function(analyticsDataArray) {
           if (analyticsDataArray) {
-            _this.renderData(analyticsDataArray.data, analyticsDataArray.periodInSeconds, analyticsDataArray.context);
+            _this.prepareDataToRender(analyticsDataArray.data, analyticsDataArray.periodInSeconds, analyticsDataArray.context);
           } else {
             Promise.all([
               _this.getMetricsData(analyticsStartDate, analyticsEndDate, analyticsPrevStartDate, 'hour'),
@@ -423,7 +423,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
               _this.getPopularScreenData(analyticsStartDate, analyticsEndDate, 5)
             ]).then(function(data) {
               var periodDurationInSeconds = (analyticsEndDate - analyticsStartDate);
-              _this.renderData(data, periodDurationInSeconds, 'hour');
+              _this.prepareDataToRender(data, periodDurationInSeconds, 'hour');
             }).catch(function(error) {
               console.error(error)
             });
@@ -497,14 +497,13 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         _this.getPopularScreenData(analyticsStartDate, analyticsEndDate, limit)
       ]).then(function(data) {
         var periodDurationInSeconds = (analyticsEndDate - analyticsStartDate);
-        _this.renderData(data, periodDurationInSeconds, context)
+        _this.prepareDataToRender(data, periodDurationInSeconds, context)
       }).catch(function(error) {
         console.error(error)
       });
     },
-    renderData: function(data, periodInSeconds, context) {
+    prepareDataToRender: function(data, periodInSeconds, context) {
       var _this = this;
-
       pvDataArray = {
         metricsData: data[0],
         timelineData: data[1],
@@ -516,7 +515,9 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       }
 
       _this.storeDataToPersistantVariable();
-
+      _this.renderData(periodInSeconds, context)
+    },
+    renderData: function(periodInSeconds, context) {
       // RENDER APP METRICS
       var appMetricsArrayData = [];
       pvDataArray.metricsData.forEach(function(arr, index) {
