@@ -1,0 +1,254 @@
+<div class="app-analytics-container" data-comflipletapp-analytics-1-0-0-id="{{id}}">
+  <div class="top-header">
+    <div class="top-header-row-title">
+      <div class="header-title">Analytics
+      </div>
+      <span class="fa fa-calendar-o agenda-icon"></span>
+    </div>
+  </div>
+  <div class="analytics-main-content">
+    <div class="analytics-box timeframe-text">
+      <span class="analytics-box-title-span">TIMEFRAME: </span>
+      <span class="analytics-date-range">&nbsp;</span>
+    </div>
+    <div class="analytics-box">
+      <div class="analytics-box-title-block">APP METRICS</div>
+      <div class="analytics-title-row">
+        <div class="analytics-title-metric">Metric</div>
+        <div class="analytics-title-prior-period">Prior period</div>
+        <div class="analytics-title-select-period">Selected period</div>
+      </div>
+      <div class="analytics-row-wrapper-metrics">
+        <!--Content will be loaded here from handlebars template-->
+      </div>
+    </div>
+    <div class="analytics-box">
+      <div class="analytics-box-title-block">TIMELINE
+      </div>
+      <form class="timeline-radio-selectors">
+        <input type="radio" id="timeline-active-users" name="timeline-selector">
+        <label class="radio-label" for="timeline-active-users">Active devices</label>
+        <input type="radio" id="timeline-sessions" name="timeline-selector">
+        <label class="radio-label" for="timeline-sessions">Sessions</label>
+        <input type="radio" id="timeline-screen-views" name="timeline-selector">
+        <label class="radio-label" for="timeline-screen-views">Screen views</label>
+        <input type="radio" id="timeline-clicks" name="timeline-selector">
+        <label class="radio-label" for="timeline-clicks">Interactions</label>
+      </form>
+      <div class="chart-holder"></div>
+    </div>
+    <div class="analytics-box">
+      <div class="analytics-box-title-block">MOST ACTIVE USERS</div>
+      <form class="users-radio-selectors">
+        <input type="radio" id="users-sessions" name="users-selector">
+        <label class="radio-label" for="users-sessions">Sessions</label>
+        <input type="radio" id="users-screen-views" name="users-selector">
+        <label class="radio-label" for="users-screen-views">Screen views</label>
+        <input type="radio" id="users-clicks" name="users-selector">
+        <label class="radio-label" for="users-clicks">Clicks</label>
+      </form>
+      <div class="analytics-row-wrapper analytics-row-wrapper-users">
+        <!--Content will be loaded here from handlebars template-->
+      </div>
+      <div class="see-more more-active-users">See all
+        <span class="fa fa-long-arrow-right"></span>
+      </div>
+    </div>
+    <div class="analytics-box actions-by-user">
+      <span class="analytics-box-title-span">ACTIONS PER USER</span>
+      <div class="see-more inline more-actions-by-user">See all
+        <span class="fa fa-long-arrow-right"></span>
+      </div>
+    </div>
+    <div class="analytics-box">
+      <div class="analytics-box-title-block">MOST POPULAR SCREENS
+      </div>
+      <form class="screens-radio-selectors">
+        <input type="radio" id="screens-screen-views" name="screen-selector">
+        <label class="radio-label" for="screens-screen-views">Screen-views</label>
+        <input type="radio" id="screens-sessions" name="screen-selector">
+        <label class="radio-label" for="screens-sessions">Sessions</label>
+        <input type="radio" id="screens-clicks" name="screen-selector">
+        <label class="radio-label" for="screens-clicks">Clicks</label>
+      </form>
+      <div class="analytics-row-wrapper analytics-row-wrapper-screen">
+        <!--Content will be loaded here from handlebars template-->
+      </div>
+      <div class="see-more more-popular-sessions">See all
+        <span class="fa fa-long-arrow-right"></span>
+      </div>
+    </div>
+    <div class="analytics-box actions-by-screen">
+      <span class="analytics-box-title-span">ACTIONS PER SCREEN</span>
+      <div class="see-more inline more-actions-by-screen">See all
+        <span class="fa fa-long-arrow-right"></span>
+      </div>
+    </div>
+  </div>
+  <!--date picker-->
+  <div class="full-screen-overlay date-picker">
+    <div class="apply-button">APPLY
+    </div>
+    <div class="close-button">
+      <span class="fa fa-times"></span>
+    </div>
+    <div class="options-wrapper">
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="last-24-hours" value="last-24-hours" name="date-selector">
+        <label for="last-24-hours">Last 24 hours</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="last-7-days" value="last-7-days" name="date-selector" checked>
+        <label for="last-7-days">Last 7 days</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="last-30-days" value="last-30-days" name="date-selector">
+        <label for="last-30-days">Last 30 days</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="last-90-days" value="last-90-days" name="date-selector">
+        <label for="last-90-days">Last 90 days</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="last-6-months" value="last-6-months" name="date-selector">
+        <label for="last-6-months">Last 6 months</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="last-12-months" value="last-12-months" name="date-selector">
+        <label for="last-12-months">Last 12 months</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="options-row">
+        <input type="radio" class="date-picker-option" id="custom-dates" value="custom-dates" name="date-selector">
+        <label for="custom-dates">Custom dates</label>
+        <div class="check">
+        </div>
+      </div>
+      <div class="custom-dates-inputs">
+        <div class="custom-dates-hidden-content">
+          <div class="custom-dates-label">START DATE
+          </div>
+          <input type="text" class="datepicker noBlueHighlight" id="pickerStartDate" placeholder="Start date">
+          <div class="custom-dates-alert custom-start-date-alert">Please enter a valid start date
+          </div>
+          <div class="custom-dates-label">END DATE
+          </div>
+          <input type="text" class="datepicker noBlueHighlight" id="pickerEndDate" placeholder="End date">
+          <div class="custom-dates-alert custom-end-date-alert">Please enter a valid end date
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--active users overlay-->
+  <div class="full-screen-overlay active-users-overlay">
+    <div class="close-button">
+      <span class="fa fa-times"></span>
+    </div>
+    <div class="options-wrapper">
+      <table class="display responsive nowrap active-users-full-table-sessions" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">User email</th>
+            <th>Sessions</th>
+          </tr>
+        </thead>
+      </table>
+      <table class="display responsive nowrap hidden active-users-full-table-views" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">User email</th>
+            <th>Screen views</th>
+          </tr>
+        </thead>
+      </table>
+      <table class="display responsive nowrap hidden active-users-full-table-clicks" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">User email</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <!--actions per user overlay-->
+  <div class="full-screen-overlay actions-per-user-overlay">
+    <div class="close-button">
+      <span class="fa fa-times"></span>
+    </div>
+    <div class="options-wrapper">
+      <table class="display responsive nowrap actions-per-user" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">User email</th>
+            <th class="tablet-p">Event category</th>
+            <th class="tablet-p">Event action</th>
+            <th class="tablet-p">Event label</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <!-- popular-sessions-overlay -->
+  <div class="full-screen-overlay popular-sessions-overlay">
+    <div class="close-button">
+      <span class="fa fa-times"></span>
+    </div>
+    <div class="options-wrapper">
+      <table class="display responsive nowrap hidden popular-sessions-full-table-views" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">Screen name</th>
+            <th>Screen views</th>
+          </tr>
+        </thead>
+      </table>
+      <table class="display responsive nowrap hidden popular-sessions-full-table-sessions" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">Screen name</th>
+            <th>Sessions</th>
+          </tr>
+        </thead>
+      </table>
+      <table class="display responsive nowrap hidden popular-sessions-full-table-clicks" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">Screen name</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <!--actions per screen overlay-->
+  <div class="full-screen-overlay actions-per-screen-overlay">
+    <div class="close-button">
+      <span class="fa fa-times"></span>
+    </div>
+    <div class="options-wrapper">
+      <table class="display responsive nowrap actions-per-screen" width="100%">
+        <thead>
+          <tr>
+            <th data-priority="1">Screen name</th>
+            <th class="tablet-p">Event category</th>
+            <th class="tablet-p">Event action</th>
+            <th class="tablet-p">Event label</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>

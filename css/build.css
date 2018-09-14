@@ -1,0 +1,537 @@
+[data-comflipletapp-analytics-1-0-0-id] h6 {
+  color: salmon;
+}
+
+
+/* Remove menu bar if exists */
+
+.freeze {
+  overflow: hidden;
+}
+
+.app-analytics-container {
+  position: relative;
+}
+
+
+/* TOP HEADER BAR */
+
+.top-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  line-height: 40px;
+  z-index: 10;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+.top-header-row-title {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-title {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  flex: 1;
+  margin: 0 1.4rem 0 0;
+}
+
+.agenda-icon {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+
+/*main content*/
+
+.analytics-main-content {
+  padding: 70px 0 0;
+}
+
+.analytics-box {
+  background-color: #f4f2f7;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.timeframe-text,
+.actions-by-screen,
+.actions-by-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.analytics-box-row {
+  margin: 10px 0 10px 0;
+}
+
+span.analytics-box-title-span {
+  font-size: 16px;
+  color: #333333;
+}
+
+.analytics-box-title-block {
+  font-size: 16px;
+  color: #333333;
+}
+
+span.analytics-box-text-span {
+  font-size: 16px;
+  opacity: 0.8;
+  width: 50%;
+}
+
+span.analytics-box-number {
+  font-size: 22px;
+  width: 25%;
+  text-align: center
+}
+
+span.analytics-box-number-prior {
+  font-size: 22px;
+  width: 25%;
+  text-align: center;
+  opacity: 0.6;
+}
+
+
+
+/******** radio buttons *************/
+
+input[type=radio] {
+  /*hide default check boxes*/
+  display: none;
+}
+
+label.radio-label {
+  font-size: 14px;
+  padding: 4px 10px;
+  margin: 10px 3px 0 0;
+  border-radius: 20px;
+  border: 1px solid rgba(21, 60, 73, 0.2);
+  color: #333333;
+  opacity: 0.7;
+  display: inline-block;
+  transition: all 0.25s linear;
+}
+
+input[type=radio]:checked+label.radio-label {
+  background-color: #333333;
+  opacity: 1;
+  color: white;
+}
+
+
+.analytics-row-wrapper {
+  margin: 10px 0 0 0;
+}
+
+.analytics-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid rgba(21, 60, 73, 0.2);
+}
+
+.analytics-row-score {
+  font-size: 24px;
+  margin: 0 10px 0 0;
+  min-width: 60px;
+}
+
+.analytics-row-score p {
+  margin: 0;
+  text-align: center;
+}
+
+.analytics-row-icon {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin: 5px 10px 5px 0;
+  overflow: hidden;
+}
+
+.analytics-row-name {
+  flex: 1;
+  overflow: hidden;
+}
+
+.analytics-row-name p {
+  margin: 0;
+}
+
+.see-more {
+  font-size: 12px;
+  padding: 10px 10px 0 10px;
+  text-align: right;
+  width: 100%;
+  cursor: pointer;
+}
+
+.see-more.inline {
+  width: 25%;
+}
+
+.actions-by-screen .see-more,
+.actions-by-user .see-more {
+  padding-top: 0;
+}
+
+.analytics-title-row {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.analytics-title-metric {
+  width: 50%;
+  line-height: 1.2;
+  padding-bottom: 6px;
+}
+
+.analytics-title-select-period,
+.analytics-title-prior-period {
+  width: 25%;
+  text-align: center;
+  padding: 0 10px;
+  line-height: 1.2;
+  padding-bottom: 6px;
+}
+
+
+
+/*Chart css*/
+
+.chart-holder {
+  margin-top: 15px;
+}
+
+.highcharts-axis-line {
+  stroke: none;
+}
+
+.highcharts-axis-labels text {
+  color: #333333 !important;
+  fill: #333333 !important;
+}
+
+.highcharts-label text {
+  color: #333333 !important;
+  fill: #333333 !important;
+  text-shadow: none !important;
+}
+
+.highcharts-legend-item text {
+  color: #333333 !important;
+  fill: #333333 !important;
+  font-weight: 500;
+}
+
+.analytics-title-question {
+  width: calc(100% - 100px);
+}
+
+.analytics-title-views,
+.analytics-title-answers {
+  width: 50px;
+  text-align: center;
+}
+
+.feedback-row-question {
+  width: calc(100% - 100px);
+}
+
+.feedback-row-question p {
+  margin: 0;
+}
+
+.feedback-row-views,
+.feedback-row-answers {
+  width: 50px;
+  text-align: center;
+}
+
+.feedback-row-views p,
+.feedback-row-answers p {
+  margin: 0;
+}
+
+
+/*******  overlays  *******/
+
+.full-screen-overlay {
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f4f2f7;
+  color: #333333;
+  position: fixed;
+  top: 0;
+  top: env(safe-area-inset-top);
+  left: 0;
+  transform: translate3d(100%, 0, 0);
+  padding: 60px 15px 40px 15px;
+  z-index: 11;
+  transition: all 0.25s;
+}
+
+.full-screen-overlay.date-picker {
+  padding: 60px 40px 40px 40px;
+}
+
+.full-screen-overlay.active {
+  transform: translate3d(0, 0, 0);
+}
+
+.close-button {
+  position: fixed;
+  top: 0;
+  top: env(safe-area-inset-top);
+  right: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.apply-button {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid rgba(21, 60, 73, 0.2);
+  color: #333333;
+  transition: opacity 0.25s linear;
+  cursor: pointer;
+}
+
+.options-row {
+  position: relative;
+  padding: 5px 5px 5px 30px;
+}
+
+label {
+  font-weight: normal;
+  font-size: 20px;
+  color: #333333;
+}
+
+input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+}
+
+.check {
+  display: block;
+  position: absolute;
+  border: 1px solid #333333;
+  border-radius: 100%;
+  height: 20px;
+  width: 20px;
+  top: 11px;
+  left: 0;
+  z-index: 5;
+  transition: border .25s linear;
+  -webkit-transition: border .25s linear;
+}
+
+.check::before {
+  display: block;
+  position: absolute;
+  content: '';
+  border-radius: 100%;
+  height: 14px;
+  width: 14px;
+  top: 2px;
+  left: 2px;
+  margin: auto;
+  transition: background 0.25s linear;
+}
+
+input[type=radio]:checked~.check {
+  border: 1px solid #333333;
+}
+
+input[type=radio]:checked~.check:before {
+  background: #333333;
+}
+
+input[type=radio]:checked~label {
+  color: #333333;
+  cursor: pointer;
+}
+
+.datepicker {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  font-size: 24px;
+  border-bottom: 1px solid rgba(21, 60, 73, 0.2);
+  margin: 0 0 10px 0;
+}
+
+.datepicker::placeholder {
+  color: #333333;
+  opacity: 0.4;
+  font-size: 24px;
+}
+
+.datepicker.datepicker-dropdown {
+  background-color: #f4f2f7;
+  color: #333333;
+  padding: 20px;
+}
+
+.datepicker.datepicker-dropdown::after,
+.datepicker.datepicker-dropdown::before {
+  display: none;
+}
+
+.noBlueHighlight {
+  outline: none;
+}
+
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover,
+.datepicker table tr td.old,
+.datepicker table tr td.new {
+  color: #333333;
+  opacity: 0.4;
+}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover,
+.datepicker tfoot tr th:hover,
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused {
+  background: rgba(105, 107, 133, 1);
+}
+
+.custom-dates-label {
+  color: #333333;
+  font-size: 12px;
+  margin: 10px 0 0 0;
+}
+
+.custom-dates-inputs {
+  height: 0;
+  overflow: hidden;
+}
+
+.custom-dates-alert {
+  font-size: 12px;
+  margin: 0;
+  color: #ca2626;
+  /*red*/
+  display: none;
+}
+
+.custom-dates-alert.active {
+  display: block;
+}
+
+table th,
+table td,
+table caption {
+  min-width: unset;
+}
+
+
+/***********  Chart css  ************/
+
+.highcharts-axis-line {
+  stroke: none;
+}
+
+
+
+/***********  Table overlay css  ************/
+
+table.dataTable.display tbody tr.odd>.sorting_1,
+table.dataTable.order-column.stripe tbody tr.odd>.sorting_1,
+table.dataTable.stripe tbody tr.odd,
+table.dataTable.display tbody tr.odd,
+table.dataTable.row-border tbody th,
+table.dataTable.row-border tbody td,
+table.dataTable.display tbody th,
+table.dataTable.display tbody td,
+table.dataTable.display tbody tr.even>.sorting_1,
+table.dataTable.order-column.stripe tbody tr.even>.sorting_1,
+table.dataTable tbody tr,
+table.dataTable.hover tbody tr:hover,
+table.dataTable.display tbody tr:hover {
+  background-color: transparent;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.dataTables_wrapper select {
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  font-size: 20px;
+}
+
+.dataTables_wrapper input {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  font-size: 20px;
+  background-color: transparent;
+}
+
+.dataTables_wrapper label {
+  font-size: 16px;
+}
+
+@media screen and (max-width: 640px) {
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter {
+    text-align: left;
+  }
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+  color: inherit;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+  color: inherit !important;
+}
+
+table.dataTable.no-footer {
+  margin-top: 20px;
+}
+
+.dt-button-background {
+  display: none !important;
+}
