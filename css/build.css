@@ -106,13 +106,16 @@ span.analytics-box-number-prior {
 
 
 /******** radio buttons *************/
+.radio-label {
+  cursor: pointer;
+}
 
 input[type=radio] {
   /*hide default check boxes*/
   display: none;
 }
 
-label.radio-label {
+.radio-label-btn {
   font-size: 14px;
   padding: 4px 10px;
   margin: 10px 3px 0 0;
@@ -124,7 +127,7 @@ label.radio-label {
   transition: all 0.25s linear;
 }
 
-input[type=radio]:checked+label.radio-label {
+input[type=radio]:checked + .radio-label-btn {
   background-color: #333333;
   opacity: 1;
   color: white;
@@ -334,11 +337,6 @@ label {
   color: #333333;
 }
 
-input[type=radio] {
-  position: absolute;
-  visibility: hidden;
-}
-
 .check {
   display: block;
   position: absolute;
@@ -353,7 +351,7 @@ input[type=radio] {
   -webkit-transition: border .25s linear;
 }
 
-.check::before {
+.check:before {
   display: block;
   position: absolute;
   content: '';
@@ -366,17 +364,12 @@ input[type=radio] {
   transition: background 0.25s linear;
 }
 
-input[type=radio]:checked~.check {
+input[type=radio]:checked ~ .check {
   border: 1px solid #333333;
 }
 
-input[type=radio]:checked~.check:before {
+input[type=radio]:checked ~ .check:before {
   background: #333333;
-}
-
-input[type=radio]:checked~label {
-  color: #333333;
-  cursor: pointer;
 }
 
 .datepicker {
@@ -388,7 +381,7 @@ input[type=radio]:checked~label {
   margin: 0 0 10px 0;
 }
 
-.datepicker::placeholder {
+.datepicker:placeholder {
   color: #333333;
   opacity: 0.4;
   font-size: 24px;
@@ -400,8 +393,8 @@ input[type=radio]:checked~label {
   padding: 20px;
 }
 
-.datepicker.datepicker-dropdown::after,
-.datepicker.datepicker-dropdown::before {
+.datepicker.datepicker-dropdown:after,
+.datepicker.datepicker-dropdown:before {
   display: none;
 }
 

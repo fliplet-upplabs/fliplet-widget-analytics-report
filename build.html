@@ -1,8 +1,7 @@
 <div class="app-analytics-container" data-comflipletapp-analytics-1-0-0-id="{{id}}">
   <div class="top-header">
     <div class="top-header-row-title">
-      <div class="header-title">Analytics
-      </div>
+      <div class="header-title">{{#if heading}}{{heading}}{{else}}Analytics{{/if}}</div>
       <span class="fa fa-calendar-o agenda-icon"></span>
     </div>
   </div>
@@ -26,26 +25,40 @@
       <div class="analytics-box-title-block">TIMELINE
       </div>
       <form class="timeline-radio-selectors">
-        <input type="radio" id="timeline-active-users" name="timeline-selector">
-        <label class="radio-label" for="timeline-active-users">Active devices</label>
-        <input type="radio" id="timeline-sessions" name="timeline-selector">
-        <label class="radio-label" for="timeline-sessions">Sessions</label>
-        <input type="radio" id="timeline-screen-views" name="timeline-selector">
-        <label class="radio-label" for="timeline-screen-views">Screen views</label>
-        <input type="radio" id="timeline-clicks" name="timeline-selector">
-        <label class="radio-label" for="timeline-clicks">Interactions</label>
+        <label class="radio-label">
+          <input type="radio" name="timeline-selector" value="timeline-active-users">
+          <span class="radio-label-btn">Active devices</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="timeline-selector" value="timeline-sessions">
+          <span class="radio-label-btn">Sessions</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="timeline-selector" value="timeline-screen-views">
+          <span class="radio-label-btn">Screen views</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="timeline-selector" value="timeline-clicks">
+          <span class="radio-label-btn">Interactions</span>
+        </label>
       </form>
       <div class="chart-holder"></div>
     </div>
     <div class="analytics-box">
       <div class="analytics-box-title-block">MOST ACTIVE USERS</div>
       <form class="users-radio-selectors">
-        <input type="radio" id="users-sessions" name="users-selector">
-        <label class="radio-label" for="users-sessions">Sessions</label>
-        <input type="radio" id="users-screen-views" name="users-selector">
-        <label class="radio-label" for="users-screen-views">Screen views</label>
-        <input type="radio" id="users-clicks" name="users-selector">
-        <label class="radio-label" for="users-clicks">Clicks</label>
+        <label class="radio-label">
+          <input type="radio" name="users-selector" value="users-sessions">
+          <span class="radio-label-btn">Sessions</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="users-selector" value="users-screen-views">
+          <span class="radio-label-btn">Screen views</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="users-selector" value="users-clicks">
+          <span class="radio-label-btn">Clicks</span>
+        </label>
       </form>
       <div class="analytics-row-wrapper analytics-row-wrapper-users">
         <!--Content will be loaded here from handlebars template-->
@@ -64,12 +77,18 @@
       <div class="analytics-box-title-block">MOST POPULAR SCREENS
       </div>
       <form class="screens-radio-selectors">
-        <input type="radio" id="screens-screen-views" name="screen-selector">
-        <label class="radio-label" for="screens-screen-views">Screen-views</label>
-        <input type="radio" id="screens-sessions" name="screen-selector">
-        <label class="radio-label" for="screens-sessions">Sessions</label>
-        <input type="radio" id="screens-clicks" name="screen-selector">
-        <label class="radio-label" for="screens-clicks">Clicks</label>
+        <label class="radio-label">
+          <input type="radio" name="screen-selector" value="screens-screen-views">
+          <span class="radio-label-btn">Screen-views</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="screen-selector" value="screens-sessions">
+          <span class="radio-label-btn">Sessions</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="screen-selector" value="screens-clicks">
+          <span class="radio-label-btn">Clicks</span>
+        </label>
       </form>
       <div class="analytics-row-wrapper analytics-row-wrapper-screen">
         <!--Content will be loaded here from handlebars template-->
@@ -94,57 +113,64 @@
     </div>
     <div class="options-wrapper">
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="last-24-hours" value="last-24-hours" name="date-selector">
-        <label for="last-24-hours">Last 24 hours</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="last-24-hours" name="date-selector">
+          <span class="check"></span>
+          Last 24 hours
+        </label>
       </div>
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="last-7-days" value="last-7-days" name="date-selector" checked>
-        <label for="last-7-days">Last 7 days</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="last-7-days" name="date-selector">
+          <div class="check"></div>
+          Last 7 days
+        </label>
       </div>
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="last-30-days" value="last-30-days" name="date-selector">
-        <label for="last-30-days">Last 30 days</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="last-30-days" name="date-selector">
+          <div class="check"></div>
+          Last 30 days
+        </label>
       </div>
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="last-90-days" value="last-90-days" name="date-selector">
-        <label for="last-90-days">Last 90 days</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="last-90-days" name="date-selector">
+          <div class="check"></div>
+          Last 90 days
+        </label>
       </div>
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="last-6-months" value="last-6-months" name="date-selector">
-        <label for="last-6-months">Last 6 months</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="last-6-months" name="date-selector">
+          <div class="check"></div>
+          Last 6 months
+        </label>
       </div>
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="last-12-months" value="last-12-months" name="date-selector">
-        <label for="last-12-months">Last 12 months</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="last-12-months" name="date-selector">
+          <div class="check"></div>
+          Last 12 months
+        </label>
       </div>
       <div class="options-row">
-        <input type="radio" class="date-picker-option" id="custom-dates" value="custom-dates" name="date-selector">
-        <label for="custom-dates">Custom dates</label>
-        <div class="check">
-        </div>
+        <label class="radio-label">
+          <input type="radio" class="date-picker-option" value="custom-dates" name="date-selector">
+          <div class="check"></div>
+          Custom dates
+        </label>
       </div>
       <div class="custom-dates-inputs">
         <div class="custom-dates-hidden-content">
           <div class="custom-dates-label">START DATE
           </div>
-          <input type="text" class="datepicker noBlueHighlight" id="pickerStartDate" placeholder="Start date">
+          <input type="text" class="datepicker noBlueHighlight pickerStartDate" placeholder="Start date">
           <div class="custom-dates-alert custom-start-date-alert">Please enter a valid start date
           </div>
           <div class="custom-dates-label">END DATE
           </div>
-          <input type="text" class="datepicker noBlueHighlight" id="pickerEndDate" placeholder="End date">
+          <input type="text" class="datepicker noBlueHighlight pickerEndDate" placeholder="End date">
           <div class="custom-dates-alert custom-end-date-alert">Please enter a valid end date
           </div>
         </div>

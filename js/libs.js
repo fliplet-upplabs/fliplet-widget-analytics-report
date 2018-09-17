@@ -180,12 +180,12 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         autoclose: true
       });
       // custom dates start-date validation
-      $container.find('#pickerStartDate').datepicker().on('changeDate', function(e) {
+      $container.find('.pickerStartDate').datepicker().on('changeDate', function(e) {
         // if start date exists check end date is after start date
-        if (typeof $('#pickerEndDate').data('datepicker').dates[0] === 'undefined') {
+        if (typeof $('.pickerEndDate').data('datepicker').dates[0] === 'undefined') {
           $('.custom-start-date-alert').removeClass('active');
         } else {
-          if ($('#pickerEndDate').data('datepicker').dates[0] < $('#pickerStartDate').data('datepicker').dates[0]) {
+          if ($('.pickerEndDate').data('datepicker').dates[0] < $('.pickerStartDate').data('datepicker').dates[0]) {
             $('.custom-dates-inputs').css({
               height: 'auto'
             });
@@ -197,12 +197,12 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         }
       });
       // custom dates end-date validation
-      $container.find('#pickerEndDate').datepicker().on('changeDate', function(e) {
+      $container.find('.pickerEndDate').datepicker().on('changeDate', function(e) {
         // if start date exists check end date is after start date
-        if (typeof $container.find('#pickerStartDate').data('datepicker').dates[0] === 'undefined') {
+        if (typeof $container.find('.pickerStartDate').data('datepicker').dates[0] === 'undefined') {
           $container.find('.custom-end-date-alert').removeClass('active');
         } else {
-          if ($container.find('#pickerEndDate').data('datepicker').dates[0] < $container.find('#pickerStartDate').data('datepicker').dates[0]) {
+          if ($container.find('.pickerEndDate').data('datepicker').dates[0] < $container.find('.pickerStartDate').data('datepicker').dates[0]) {
             $container.find('.custom-dates-inputs').css({
               height: 'auto'
             });
@@ -216,7 +216,8 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
 
       $container
         .on('click', '.date-picker-option', function(event) {
-          if (event.target.id == 'custom-dates') {
+          var value = $('.date-picker-option:checked').val();
+          if (value == 'custom-dates') {
             var targetHeight = $(this).parents('.date-picker').find('.custom-dates-hidden-content').outerHeight();
             $(this).parents('.date-picker').find('.custom-dates-inputs').animate({
               height: targetHeight
@@ -282,8 +283,8 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
               _this.closeOverlay()
               break;
             case 'custom-dates':
-              var customStartDate = $(this).parents('.date-picker').find('#pickerStartDate').data('datepicker').dates[0];
-              var customEndDate = $(this).parents('.date-picker').find('#pickerEndDate').data('datepicker').dates[0];
+              var customStartDate = $(this).parents('.date-picker').find('.pickerStartDate').data('datepicker').dates[0];
+              var customEndDate = $(this).parents('.date-picker').find('.pickerEndDate').data('datepicker').dates[0];
               if (typeof customStartDate === 'undefined') {
                 $(this).parents('.date-picker').find('.custom-dates-inputs').css({ height: 'auto' });
                 $(this).parents('.date-picker').find('.custom-start-date-alert').addClass('active');
@@ -324,43 +325,61 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
           $('body').addClass('freeze');
           _this.getScreenActionData();
         })
-        .on('click', '#timeline-active-users', function() {
-          // datetime specified in milliseconds
-          timelineChart[configuration.id].series[0].setData(timelineActiveDevicesDataPrior);
-          timelineChart[configuration.id].series[1].setData(timelineActiveDevicesData);
+        .on('change', '[name="timeline-selector"]', function() {
+          var value = $('[name="timeline-selector"]:checked').val();
+
+          switch (value) {
+            case 'timeline-active-users':
+              // datetime specified in milliseconds
+              timelineChart[configuration.id].series[0].setData(timelineActiveDevicesDataPrior);
+              timelineChart[configuration.id].series[1].setData(timelineActiveDevicesData);
+              break;
+            case 'timeline-sessions':
+              // datetime specified in milliseconds
+              timelineChart[configuration.id].series[0].setData(timelineSessionsDataPrior);
+              timelineChart[configuration.id].series[1].setData(timelineSessionsData);
+              break;
+            case 'timeline-screen-views':
+              // datetime specified in milliseconds
+              timelineChart[configuration.id].series[0].setData(timelineScreenViewsDataPrior);
+              timelineChart[configuration.id].series[1].setData(timelineScreenViewsData);
+              break;
+            case 'timeline-clicks':
+              // datetime specified in milliseconds
+              timelineChart[configuration.id].series[0].setData(timelineInteractionsDataPrior);
+              timelineChart[configuration.id].series[1].setData(timelineInteractionsData);
+              break;
+          }
         })
-        .on('click', '#timeline-sessions', function() {
-          // datetime specified in milliseconds
-          timelineChart[configuration.id].series[0].setData(timelineSessionsDataPrior);
-          timelineChart[configuration.id].series[1].setData(timelineSessionsData);
+        .on('change', '[name="users-selector"]', function() {
+          var value = $('[name="users-selector"]:checked').val();
+
+          switch (value) {
+            case 'users-sessions':
+              $(this).parents('.analytics-box').find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[0]));
+              break;
+            case 'users-screen-views':
+              $(this).parents('.analytics-box').find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[1]));
+              break;
+            case 'users-clicks':
+              $(this).parents('.analytics-box').find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[2]));
+              break;
+          }
         })
-        .on('click', '#timeline-screen-views', function() {
-          // datetime specified in milliseconds
-          timelineChart[configuration.id].series[0].setData(timelineScreenViewsDataPrior);
-          timelineChart[configuration.id].series[1].setData(timelineScreenViewsData);
-        })
-        .on('click', '#timeline-clicks', function() {
-          // datetime specified in milliseconds
-          timelineChart[configuration.id].series[0].setData(timelineInteractionsDataPrior);
-          timelineChart[configuration.id].series[1].setData(timelineInteractionsData);
-        })
-        .on('click', '#users-sessions', function() {
-          $(this).parents('.analytics-box').find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[0]));
-        })
-        .on('click', '#users-screen-views', function() {
-          $(this).parents('.analytics-box').find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[1]));
-        })
-        .on('click', '#users-clicks', function() {
-          $(this).parents('.analytics-box').find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[2]));
-        })
-        .on('click', '#screens-screen-views', function() {
-          $(this).parents('.analytics-box').find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[0]));
-        })
-        .on('click', '#screens-sessions', function() {
-          $(this).parents('.analytics-box').find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[1]));
-        })
-        .on('click', '#screens-clicks', function() {
-          $(this).parents('.analytics-box').find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[2]));
+        .on('change', '[name="screen-selector"]', function() {
+          var value = $('[name="screen-selector"]:checked').val();
+
+          switch (value) {
+            case 'screens-screen-views':
+              $(this).parents('.analytics-box').find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[0]));
+              break;
+            case 'screens-sessions':
+              $(this).parents('.analytics-box').find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[1]));
+              break;
+            case 'screens-clicks':
+              $(this).parents('.analytics-box').find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[2]));
+              break;
+          }
         });
     },
     closeOverlay: function() {
@@ -373,7 +392,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
     storeDataToPersistantVariable: function() {
       /*save dates to a persistant variable*/
       pvDateTimeObject = {
-        dateSelectMode: 'last-7-days',
+        dateSelectMode: dateSelectMode || 'last-7-days',
         sd: analyticsStartDate,
         ed: analyticsEndDate,
         psd: analyticsPrevStartDate,
@@ -401,8 +420,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
             analyticsPrevEndDate = new Date(pvDateTimeObject.ped);
 
             _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
-            radioButtonToCheck = document.getElementById(dateSelectMode);
-            radioButtonToCheck.checked = true;
+            $('[name="date-selector"][value="'+ dateSelectMode +'"]').prop('checked', true);
           } else {
             // default to last 7 days if nothing previously selected
             dateSelectMode = 'last-7-days';
@@ -554,28 +572,28 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       $container.find('.analytics-row-wrapper-metrics').html(compiledAppMetricsTemplate(appMetricsArrayData));
 
       // RENDER MOST ACTIVE USERS
-      switch ($container.find('[name="users-selector"]:checked').attr('id')) {
+      switch ($container.find('[name="users-selector"]:checked').val()) {
         case 'users-sessions':
-          $container.find('#analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[0]));
+          $container.find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[0]));
           break;
         case 'users-screen-views':
-          $container.find('#analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[1]));
+          $container.find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[1]));
           break;
         case 'users-clicks':
-          $container.find('#analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[2]));
+          $container.find('.analytics-row-wrapper-users').html(compiledActiveUserTemplate(pvDataArray.activeUserData[2]));
           break;
       }
 
       // RENDER MOST POPULAR SCREENS
-      switch ($container.find('[name="screen-selector"]:checked').attr('id')) {
+      switch ($container.find('[name="screen-selector"]:checked').val()) {
         case 'screens-screen-views':
-          $container.find('#analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[0]));
+          $container.find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[0]));
           break;
         case 'screens-sessions':
-          $container.find('#analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[1]));
+          $container.find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[1]));
           break;
         case 'screens-clicks':
-          $container.find('#analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[2]));
+          $container.find('.analytics-row-wrapper-screen').html(compiledPopularScreenTemplate(pvDataArray.popularScreenData[2]));
           break;
       }
 
@@ -701,7 +719,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       }, ['asc']);
 
       // RENDER TIMELINE
-      switch ($container.find('[name="timeline-selector"]:checked').attr('id')) {
+      switch ($container.find('[name="timeline-selector"]:checked').val()) {
         case 'timeline-active-users':
           timelineChart[configuration.id].series[0].setData(timelineActiveDevicesDataPrior);
           timelineChart[configuration.id].series[1].setData(timelineActiveDevicesData);
@@ -1131,7 +1149,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
     },
     getMoreActiveUsers: function() {
       var _this = this;
-      var buttonSelected = $('[name="users-selector"]:checked').attr('id');
+      var buttonSelected = $('[name="users-selector"]:checked').val();
 
       _this.getActiveUserData(analyticsStartDate, analyticsEndDate)
         .then(function(data) {
@@ -1270,7 +1288,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
     },
     getMorePopularScreens: function() {
       var _this = this;
-      var buttonSelected = $('[name="screen-selector"]:checked').attr('id');
+      var buttonSelected = $('[name="screen-selector"]:checked').val();
 
       _this.getPopularScreenData(analyticsStartDate, analyticsEndDate)
         .then(function(data) {
@@ -1413,9 +1431,11 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       _this.attachEventListeners();
 
       // Selects radio buttons by default
-      $container.find('#timeline-active-users').prop('checked', true);
-      $container.find('#users-sessions').prop('checked', true);
-      $container.find('#screens-screen-views').prop('checked', true);
+      $container.find('[name="timeline-selector"][value="timeline-active-users"]').prop('checked', true);
+      $container.find('[name="users-selector"][value="users-sessions"]').prop('checked', true);
+      $container.find('[name="screen-selector"][value="screens-screen-views"]').prop('checked', true);
+      var dateSelectModeDefault = dateSelectMode || 'last-7-days';
+      $('[name="date-selector"][value="'+ dateSelectModeDefault +'"]').prop('checked', true);
 
       // Load timeline chart
       _this.chartInitialization();
