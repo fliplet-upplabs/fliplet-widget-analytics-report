@@ -1,3 +1,19 @@
-<div class="container-fluid">
-  This is the interface of your com.fliplet.app-analytics widget.
+<div class="widget-holder">
+
+  <header>
+      <p>Configure your analytics component</p>
+  </header>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-4 control-label">
+        <label for="heading">Analytics heading</label>
+      </div>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="heading" value="{{#if heading}}{{heading}}{{else}}Analytics{{/if}}"/>
+      </div>
+    </div>
+  </form>
+  <h2><small>How to use Analytics component</small></h2>
+  <p>Donec id elit non mi porta gravida at eget metus.</p>
 </div>

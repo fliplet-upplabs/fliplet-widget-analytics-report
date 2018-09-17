@@ -12,7 +12,11 @@
       "fliplet-core",
       "fliplet-studio-ui"
     ],
-    "assets": []
+    "assets": [
+      "css/interface.css",
+      "vendor/jquery.debounce.js",
+      "js/interface.js"
+    ]
   },
   "build": {
     "dependencies": [
