@@ -514,6 +514,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         _this.getActiveUserData(analyticsStartDate, analyticsEndDate, limit),
         _this.getPopularScreenData(analyticsStartDate, analyticsEndDate, limit)
       ]).then(function(data) {
+        console.log(data)
         var periodDurationInSeconds = (analyticsEndDate - analyticsStartDate);
         _this.prepareDataToRender(data, periodDurationInSeconds, context)
       }).catch(function(error) {
@@ -543,8 +544,8 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         switch (index) {
           case 0:
             newObj['Title'] = 'Active devices';
-            newObj['Prior period'] = arr[0].count;
-            newObj['Selected period'] = arr[1].count;
+            newObj['Prior period'] = arr.metricActiveDevicesPrior;
+            newObj['Selected period'] = arr.metricActiveDevices;
             break;
           case 1:
             newObj['Title'] = 'New devices';
@@ -607,7 +608,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
             period.data.forEach(function(obj) {
               var newArray = [];
               newArray.push((moment(obj[context]).unix() * 1000) + pvDataArray.periodInSeconds);
-              newArray.push(parseInt(obj.count, 10));
+              newArray.push(parseInt(obj.uniqueDeviceTracking, 10));
               timelineActiveDevicesDataPrior.push(newArray);
             });
             break;
@@ -615,7 +616,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
             period.data.forEach(function(obj) {
               var newArray = [];
               newArray.push(moment(obj[context]).unix() * 1000);
-              newArray.push(parseInt(obj.count, 10));
+              newArray.push(parseInt(obj.uniqueDeviceTracking, 10));
               timelineActiveDevicesData.push(newArray);
             });
             break;
@@ -742,30 +743,47 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       var periodDurationInSeconds = (currentPeriodEndDate - currentPeriodStartDate);
       var previousPeriodNewUsers;
       var currentPeriodNewUsers;
+      var previousPeriodUsers;
+      var currentPeriodUsers;
 
       // get active devices (for signed in users switch between _deviceTrackingId and _userEmail)
-      var metricDevices = Fliplet.App.Analytics.get({
-        group: [{ fn: 'date_trunc', part: groupBy, col: 'createdAt', as: groupBy }],
-        attributes: [{ distinctCount: true, col: 'data._userEmail', as: 'uniqueDeviceTracking' }],
+      var metricDevices = Fliplet.App.Analytics.count({
+        group: ['data._deviceTrackingId'],
         where: {
-          data: { _userEmail: { $ne: null } },
+          data: { _deviceTrackingId: { $ne: null } },
           createdAt: {
             $gte: moment(priorPeriodStartDate).unix() * 1000,
-            $lte: moment(currentPeriodEndDate).unix() * 1000
+            $lte: moment(currentPeriodStartDate).unix() * 1000
           }
-        },
-        period: {
-          duration: periodDurationInSeconds / 1000, // in seconds
-          col: groupBy,
-          count: 'uniqueDeviceTracking'
         }
-      })
+      }).then(function(previousPeriod) {
+        previousPeriodUsers = previousPeriod;
+        // 2. get users up to end of previous period
+        return Fliplet.App.Analytics.count({
+          group: ['data._deviceTrackingId'],
+          where: {
+            data: { _deviceTrackingId: { $ne: null } },
+            createdAt: {
+              $gte: moment(currentPeriodStartDate).unix() * 1000,
+              $lte: moment(currentPeriodEndDate).unix() * 1000
+            }
+          }
+        }).then(function(currentPeriod) {
+          currentPeriodUsers = currentPeriod
+          return;
+        })
+      }).then(function() {
+        return {
+          metricActiveDevicesPrior: previousPeriodUsers,
+          metricActiveDevices: currentPeriodUsers
+        }
+      });
 
       // Get new users
       var metricNewDevices = Fliplet.App.Analytics.count({
-        group: ['data.__userEmail'],
+        group: ['data._deviceTrackingId'],
         where: {
-          data: { _userEmail: { $ne: null } },
+          data: { _deviceTrackingId: { $ne: null } },
           createdAt: {
             $lte: moment(priorPeriodStartDate).unix() * 1000
           }
@@ -773,9 +791,9 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       }).then(function(countUpToStartOfPriorPeriod) {
         // 2. get users up to end of previous period
         return Fliplet.App.Analytics.count({
-          group: ['data._userEmail'],
+          group: ['data._deviceTrackingId'],
           where: {
-            data: { _userEmail: { $ne: null } },
+            data: { _deviceTrackingId: { $ne: null } },
             createdAt: {
               $lte: moment(currentPeriodStartDate).unix() * 1000,
             }
@@ -785,9 +803,9 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
 
           // 3. get all time total count
           return Fliplet.App.Analytics.count({
-            group: ['data._userEmail'],
+            group: ['data._deviceTrackingId'],
             where: {
-              data: { _userEmail: { $ne: null } },
+              data: { _deviceTrackingId: { $ne: null } },
               createdAt: {
                 $lte: moment(currentPeriodEndDate).unix() * 1000,
               }
@@ -797,12 +815,11 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
           });
         })
       }).then(function() {
-
         return {
           metricNewDevicesPrior: previousPeriodNewUsers,
           metricNewDevices: currentPeriodNewUsers
         }
-      })
+      });
 
       // Get count of sessions
       var metricSessions = Fliplet.App.Analytics.get({
@@ -841,7 +858,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
 
       // Get count of interactions
       var metricInteractions = Fliplet.App.Analytics.get({
-        group: [{ fn: 'date_trunc', part: 'day', col: 'createdAt', as: 'day' }],
+        group: [{ fn: 'date_trunc', part: groupBy, col: 'createdAt', as: groupBy }],
         where: {
           type: 'app.analytics.event',
           data: {
@@ -866,8 +883,9 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
       // timeline of active devices
       var timelineDevices = Fliplet.App.Analytics.get({
         group: [{ fn: 'date_trunc', part: groupBy, col: 'createdAt', as: groupBy }],
+        attributes: [{ distinctCount: true, col: 'data._deviceTrackingId', as: 'uniqueDeviceTracking' }],
         where: {
-          data: { _userEmail: { $ne: null } },
+          data: { _deviceTrackingId: { $ne: null } },
           createdAt: {
             $gte: moment(priorPeriodStartDate).unix() * 1000,
             $lte: moment(currentPeriodEndDate).unix() * 1000
