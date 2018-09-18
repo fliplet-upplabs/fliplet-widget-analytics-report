@@ -954,6 +954,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
     getActiveUserData: function(currentPeriodStartDate, currentPeriodEndDate, limit) {
       var userTableSessions = Fliplet.App.Analytics.get({
         group: ['data._userEmail'],
+        attributes: [{ distinctCount: true, col: 'data._analyticsSessionId', as: 'sessionsCount' }],
         where: {
           createdAt: {
             $gte: moment(currentPeriodStartDate).unix() * 1000,
@@ -963,7 +964,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         order: [
           ['sessionsCount', 'DESC']
         ],
-        attributes: [{ distinctCount: true, col: 'data._analyticsTrackingId', as: 'sessionsCount' }],
         limit: limit
       });
 
