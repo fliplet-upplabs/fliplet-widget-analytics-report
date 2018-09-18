@@ -32,7 +32,6 @@
     "assets": [
       "vendor/bootstrap-datepicker3.css",
       "vendor/jquery.dataTables.min.css",
-      "vendor/buttons.dataTables.css",
       "vendor/responsive.dataTables.min.css",
       "vendor/bootstrap-datepicker.js",
       "vendor/jquery.dataTables.min.js",
