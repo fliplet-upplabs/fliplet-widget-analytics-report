@@ -433,10 +433,37 @@ span.analytics-box-number-prior {
   border-radius: 2px;
 }
 
+.app-analytics-container .dataTables_wrapper .dt-buttons {
+  text-align: left;
+}
+
+.app-analytics-container .dataTables_wrapper .dt-button {
+  background: transparent;
+  border: 1px solid #333;
+  color: #333;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 25px;
+}
+
+.app-analytics-container .dataTables_wrapper .dt-button:hover,
+.app-analytics-container .dataTables_wrapper .dt-button:focus,
+.app-analytics-container .dataTables_wrapper .dt-button:active,
+.app-analytics-container .dataTables_wrapper .dt-button:active:hover,
+.app-analytics-container .dataTables_wrapper .dt-button:active:focus {
+  background: #333;
+  border: 1px solid #333;
+  color: #fff;
+}
+
 .app-analytics-container .dataTables_wrapper select {
   background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
+  height: 34px;
+  margin: 0 10px;
 }
 
 .app-analytics-container .dataTables_wrapper input {
@@ -444,10 +471,18 @@ span.analytics-box-number-prior {
   border-radius: 2px;
   font-size: 20px;
   background-color: transparent;
+  width: 100%;
 }
 
 .app-analytics-container .dataTables_wrapper label {
   width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.app-analytics-container .dataTables_wrapper .dataTables_length,
+.app-analytics-container .dataTables_wrapper .dataTables_filter {
+  margin-top: 15px;
 }
 
 @media screen and (max-width: 640px) {
