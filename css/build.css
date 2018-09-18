@@ -13,10 +13,9 @@
   position: relative;
 }
 
-
 /* TOP HEADER BAR */
 
-.top-header {
+.app-analytics-container .top-header {
   position: absolute;
   top: 0;
   left: 0;
@@ -24,10 +23,9 @@
   line-height: 40px;
   z-index: 10;
   background-color: #ffffff;
-  color: #333333;
 }
 
-.top-header-row-title {
+.app-analytics-container .top-header-row-title {
   width: 100%;
   padding: 10px 0;
   display: flex;
@@ -35,7 +33,7 @@
   justify-content: space-between;
 }
 
-.header-title {
+.app-analytics-container .header-title {
   font-size: 40px;
   font-weight: 600;
   line-height: 1;
@@ -43,11 +41,10 @@
   margin: 0 1.4rem 0 0;
 }
 
-.agenda-icon {
+.app-analytics-container .agenda-icon {
   font-size: 30px;
   cursor: pointer;
 }
-
 
 /*main content*/
 
@@ -76,12 +73,10 @@
 
 span.analytics-box-title-span {
   font-size: 16px;
-  color: #333333;
 }
 
 .analytics-box-title-block {
   font-size: 16px;
-  color: #333333;
 }
 
 span.analytics-box-text-span {
@@ -103,36 +98,33 @@ span.analytics-box-number-prior {
   opacity: 0.6;
 }
 
-
-
 /******** radio buttons *************/
-.radio-label {
+.app-analytics-container .radio-label {
   cursor: pointer;
 }
 
-input[type=radio] {
+.app-analytics-container input[type=radio] {
   /*hide default check boxes*/
   display: none;
 }
 
-.radio-label-btn {
+.app-analytics-container .radio-label-btn {
   font-size: 14px;
   padding: 4px 10px;
   margin: 10px 3px 0 0;
   border-radius: 20px;
   border: 1px solid rgba(21, 60, 73, 0.2);
-  color: #333333;
   opacity: 0.7;
   display: inline-block;
   transition: all 0.25s linear;
+  font-weight: normal;
 }
 
-input[type=radio]:checked + .radio-label-btn {
+.app-analytics-container input[type=radio]:checked + .radio-label-btn {
   background-color: #333333;
   opacity: 1;
   color: white;
 }
-
 
 .analytics-row-wrapper {
   margin: 10px 0 0 0;
@@ -174,7 +166,7 @@ input[type=radio]:checked + .radio-label-btn {
   margin: 0;
 }
 
-.see-more {
+.app-analytics-container .see-more {
   font-size: 12px;
   padding: 10px 10px 0 10px;
   text-align: right;
@@ -182,12 +174,12 @@ input[type=radio]:checked + .radio-label-btn {
   cursor: pointer;
 }
 
-.see-more.inline {
+.app-analytics-container .see-more.inline {
   width: 25%;
 }
 
-.actions-by-screen .see-more,
-.actions-by-user .see-more {
+.app-analytics-container .actions-by-screen .see-more,
+.app-analytics-container .actions-by-user .see-more {
   padding-top: 0;
 }
 
@@ -213,33 +205,26 @@ input[type=radio]:checked + .radio-label-btn {
   padding-bottom: 6px;
 }
 
-
-
 /*Chart css*/
 
-.chart-holder {
+.app-analytics-container .chart-holder {
   margin-top: 15px;
 }
 
-.highcharts-axis-line {
+.app-analytics-container .highcharts-axis-line {
   stroke: none;
 }
 
-.highcharts-axis-labels text {
-  color: #333333 !important;
-  fill: #333333 !important;
-}
-
-.highcharts-label text {
-  color: #333333 !important;
-  fill: #333333 !important;
+.app-analytics-container .highcharts-label text {
   text-shadow: none !important;
 }
 
-.highcharts-legend-item text {
-  color: #333333 !important;
-  fill: #333333 !important;
+.app-analytics-container .highcharts-legend-item text {
   font-weight: 500;
+}
+
+.app-analytics-container .highcharts-axis-line {
+  stroke: none;
 }
 
 .analytics-title-question {
@@ -252,35 +237,14 @@ input[type=radio]:checked + .radio-label-btn {
   text-align: center;
 }
 
-.feedback-row-question {
-  width: calc(100% - 100px);
-}
-
-.feedback-row-question p {
-  margin: 0;
-}
-
-.feedback-row-views,
-.feedback-row-answers {
-  width: 50px;
-  text-align: center;
-}
-
-.feedback-row-views p,
-.feedback-row-answers p {
-  margin: 0;
-}
-
-
 /*******  overlays  *******/
 
-.full-screen-overlay {
+.app-analytics-container .full-screen-overlay {
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f4f2f7;
-  color: #333333;
   position: fixed;
   top: 0;
   top: env(safe-area-inset-top);
@@ -291,15 +255,15 @@ input[type=radio]:checked + .radio-label-btn {
   transition: all 0.25s;
 }
 
-.full-screen-overlay.date-picker {
+.app-analytics-container .full-screen-overlay.date-picker {
   padding: 60px 40px 40px 40px;
 }
 
-.full-screen-overlay.active {
+.app-analytics-container .full-screen-overlay.active {
   transform: translate3d(0, 0, 0);
 }
 
-.close-button {
+.app-analytics-container .close-button {
   position: fixed;
   top: 0;
   top: env(safe-area-inset-top);
@@ -313,7 +277,7 @@ input[type=radio]:checked + .radio-label-btn {
   cursor: pointer;
 }
 
-.apply-button {
+.app-analytics-container .apply-button {
   position: absolute;
   top: 10px;
   right: 60px;
@@ -321,37 +285,37 @@ input[type=radio]:checked + .radio-label-btn {
   padding: 8px 15px;
   border-radius: 20px;
   border: 1px solid rgba(21, 60, 73, 0.2);
-  color: #333333;
   transition: opacity 0.25s linear;
   cursor: pointer;
 }
 
-.options-row {
+.app-analytics-container .options-row {
   position: relative;
   padding: 5px 5px 5px 30px;
 }
 
-label {
-  font-weight: normal;
+.app-analytics-container .options-row label {
   font-size: 20px;
-  color: #333333;
+  font-weight: normal;
+  margin-bottom: 0;
 }
 
-.check {
+.app-analytics-container .check {
   display: block;
   position: absolute;
   border: 1px solid #333333;
   border-radius: 100%;
   height: 20px;
   width: 20px;
-  top: 11px;
+  top: 50%;
+  margin-top: -10px;
   left: 0;
   z-index: 5;
   transition: border .25s linear;
   -webkit-transition: border .25s linear;
 }
 
-.check:before {
+.app-analytics-container .check:before {
   display: block;
   position: absolute;
   content: '';
@@ -364,15 +328,15 @@ label {
   transition: background 0.25s linear;
 }
 
-input[type=radio]:checked ~ .check {
+.app-analytics-container input[type=radio]:checked ~ .check {
   border: 1px solid #333333;
 }
 
-input[type=radio]:checked ~ .check:before {
+.app-analytics-container input[type=radio]:checked ~ .check:before {
   background: #333333;
 }
 
-.datepicker {
+.app-analytics-container .datepicker {
   background-color: transparent;
   border: none;
   border-radius: 0;
@@ -381,56 +345,52 @@ input[type=radio]:checked ~ .check:before {
   margin: 0 0 10px 0;
 }
 
-.datepicker:placeholder {
-  color: #333333;
+.app-analytics-container .datepicker:placeholder {
   opacity: 0.4;
   font-size: 24px;
 }
 
-.datepicker.datepicker-dropdown {
+.app-analytics-container .datepicker.datepicker-dropdown {
   background-color: #f4f2f7;
-  color: #333333;
   padding: 20px;
 }
 
-.datepicker.datepicker-dropdown:after,
-.datepicker.datepicker-dropdown:before {
+.app-analytics-container .datepicker.datepicker-dropdown:after,
+.app-analytics-container .datepicker.datepicker-dropdown:before {
   display: none;
 }
 
-.noBlueHighlight {
+.app-analytics-container .noBlueHighlight {
   outline: none;
 }
 
-.datepicker table tr td.disabled,
-.datepicker table tr td.disabled:hover,
-.datepicker table tr td.old,
-.datepicker table tr td.new {
-  color: #333333;
+.app-analytics-container .datepicker table tr td.disabled,
+.app-analytics-container .datepicker table tr td.disabled:hover,
+.app-analytics-container .datepicker table tr td.old,
+.app-analytics-container .datepicker table tr td.new {
   opacity: 0.4;
 }
 
-.datepicker .datepicker-switch:hover,
-.datepicker .prev:hover,
-.datepicker .next:hover,
-.datepicker tfoot tr th:hover,
-.datepicker table tr td.day:hover,
-.datepicker table tr td.focused {
+.app-analytics-container .datepicker .datepicker-switch:hover,
+.app-analytics-container .datepicker .prev:hover,
+.app-analytics-container .datepicker .next:hover,
+.app-analytics-container .datepicker tfoot tr th:hover,
+.app-analytics-container .datepicker table tr td.day:hover,
+.app-analytics-container .datepicker table tr td.focused {
   background: rgba(105, 107, 133, 1);
 }
 
-.custom-dates-label {
-  color: #333333;
+.app-analytics-container .custom-dates-label {
   font-size: 12px;
   margin: 10px 0 0 0;
 }
 
-.custom-dates-inputs {
+.app-analytics-container .custom-dates-inputs {
   height: 0;
   overflow: hidden;
 }
 
-.custom-dates-alert {
+.app-analytics-container .custom-dates-alert {
   font-size: 12px;
   margin: 0;
   color: #ca2626;
@@ -438,93 +398,83 @@ input[type=radio]:checked ~ .check:before {
   display: none;
 }
 
-.custom-dates-alert.active {
+.app-analytics-container .custom-dates-alert.active {
   display: block;
 }
 
-table th,
-table td,
-table caption {
+.app-analytics-container table th,
+.app-analytics-container table td,
+.app-analytics-container table caption {
   min-width: unset;
 }
 
-
-/***********  Chart css  ************/
-
-.highcharts-axis-line {
-  stroke: none;
-}
-
-
-
 /***********  Table overlay css  ************/
 
-table.dataTable.display tbody tr.odd>.sorting_1,
-table.dataTable.order-column.stripe tbody tr.odd>.sorting_1,
-table.dataTable.stripe tbody tr.odd,
-table.dataTable.display tbody tr.odd,
-table.dataTable.row-border tbody th,
-table.dataTable.row-border tbody td,
-table.dataTable.display tbody th,
-table.dataTable.display tbody td,
-table.dataTable.display tbody tr.even>.sorting_1,
-table.dataTable.order-column.stripe tbody tr.even>.sorting_1,
-table.dataTable tbody tr,
-table.dataTable.hover tbody tr:hover,
-table.dataTable.display tbody tr:hover {
+.app-analytics-container table.dataTable.display tbody tr.odd>.sorting_1,
+.app-analytics-container table.dataTable.order-column.stripe tbody tr.odd>.sorting_1,
+.app-analytics-container table.dataTable.stripe tbody tr.odd,
+.app-analytics-container table.dataTable.display tbody tr.odd,
+.app-analytics-container table.dataTable.row-border tbody th,
+.app-analytics-container table.dataTable.row-border tbody td,
+.app-analytics-container table.dataTable.display tbody th,
+.app-analytics-container table.dataTable.display tbody td,
+.app-analytics-container table.dataTable.display tbody tr.even>.sorting_1,
+.app-analytics-container table.dataTable.order-column.stripe tbody tr.even>.sorting_1,
+.app-analytics-container table.dataTable tbody tr,
+.app-analytics-container table.dataTable.hover tbody tr:hover,
+.app-analytics-container table.dataTable.display tbody tr:hover {
   background-color: transparent;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.current,
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+.app-analytics-container .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.app-analytics-container .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
   background: transparent;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
 }
 
-.dataTables_wrapper select {
+.app-analytics-container .dataTables_wrapper select {
   background-color: transparent;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
-  font-size: 20px;
 }
 
-.dataTables_wrapper input {
+.app-analytics-container .dataTables_wrapper input {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   font-size: 20px;
   background-color: transparent;
 }
 
-.dataTables_wrapper label {
-  font-size: 16px;
+.app-analytics-container .dataTables_wrapper label {
+  width: 100%;
 }
 
 @media screen and (max-width: 640px) {
-  .dataTables_wrapper .dataTables_length,
-  .dataTables_wrapper .dataTables_filter {
+  .app-analytics-container .dataTables_wrapper .dataTables_length,
+  .app-analytics-container .dataTables_wrapper .dataTables_filter {
     text-align: left;
   }
 }
 
-.dataTables_wrapper .dataTables_length,
-.dataTables_wrapper .dataTables_filter,
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_processing,
-.dataTables_wrapper .dataTables_paginate {
+.app-analytics-container .dataTables_wrapper .dataTables_length,
+.app-analytics-container .dataTables_wrapper .dataTables_filter,
+.app-analytics-container .dataTables_wrapper .dataTables_info,
+.app-analytics-container .dataTables_wrapper .dataTables_processing,
+.app-analytics-container .dataTables_wrapper .dataTables_paginate {
   color: inherit;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+.app-analytics-container .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.app-analytics-container .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.app-analytics-container .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
   color: inherit !important;
 }
 
-table.dataTable.no-footer {
+.app-analytics-container table.dataTable.no-footer {
   margin-top: 20px;
 }
 
-.dt-button-background {
+.app-analytics-container .dt-button-background {
   display: none !important;
 }

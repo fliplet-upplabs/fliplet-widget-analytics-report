@@ -43,8 +43,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         'title': {
           'text': '',
           'style': {
-            'fontFamily': 'Arial',
-            'color': '#333333',
             'fontSize': '18px',
             'fontWeight': 'normal',
             'fontStyle': 'normal'
@@ -53,8 +51,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         'subtitle': {
           'text': '',
           'style': {
-            'fontFamily': 'Arial',
-            'color': '#666666',
             'fontSize': '18px',
             'fontWeight': 'normal',
             'fontStyle': 'normal'
@@ -70,8 +66,8 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
             'symbol': 'circle'
           },
           'type': 'areaspline',
-          'fillColor': 'rgba(107,136,199,0.1)',
-          'color': 'rgba(107,136,199,0.2)',
+          'fillColor': Fliplet.Themes.Current.get('appAnalyticsChartColorTwo') || 'rgba(182,189,204,0.2)',
+          'color': Fliplet.Themes.Current.get('appAnalyticsChartColorTwoDot') || '#b6bdcc',
           'label': {
             'enabled': false
           }
@@ -82,8 +78,8 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
             'symbol': 'circle'
           },
           'type': 'areaspline',
-          'color': 'rgba(67,204,240,1)',
-          'fillColor': 'rgba(67,204,240,0.4)',
+          'color': Fliplet.Themes.Current.get('appAnalyticsChartColorOneDot') || '#43ccf0',
+          'fillColor': Fliplet.Themes.Current.get('appAnalyticsChartColorOne') || 'rgba(67,204,240,0.4)',
           'label': {
             'enabled': false,
             'connectorAllowed': false
@@ -100,8 +96,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
           'title': {
             'text': '',
             'style': {
-              'fontFamily': 'Arial',
-              'color': '#666666',
               'fontSize': '18px',
               'fontWeight': 'normal',
               'fontStyle': 'normal'
@@ -120,8 +114,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         },
         'chart': {
           'style': {
-            'fontFamily': 'Arial',
-            'color': '#333',
             'fontSize': '12px',
             'fontWeight': 'normal',
             'fontStyle': 'normal'
@@ -136,8 +128,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         'xAxis': [{
           'title': {
             'style': {
-              'fontFamily': 'Arial',
-              'color': '#666666',
               'fontSize': '18px',
               'fontWeight': 'normal',
               'fontStyle': 'normal'
