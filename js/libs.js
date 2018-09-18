@@ -514,7 +514,6 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
         _this.getActiveUserData(analyticsStartDate, analyticsEndDate, limit),
         _this.getPopularScreenData(analyticsStartDate, analyticsEndDate, limit)
       ]).then(function(data) {
-        console.log(data)
         var periodDurationInSeconds = (analyticsEndDate - analyticsStartDate);
         _this.prepareDataToRender(data, periodDurationInSeconds, context)
       }).catch(function(error) {
@@ -895,7 +894,7 @@ Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data)
           duration: periodDurationInSeconds / 1000, // in seconds
           col: groupBy
         }
-      })
+      });
 
       // timeline of sessions
       var timelineSessions = Fliplet.App.Analytics.get({
