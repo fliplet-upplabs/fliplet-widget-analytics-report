@@ -1,6 +1,6 @@
 {
   "name": "App analytics",
-  "package": "com.fliplet.app-analytics",
+  "package": "com.fliplet.analytics-report",
   "version": "1.0.0",
   "icon": "img/icon.png",
   "tags": ["type:component", "category:general"],

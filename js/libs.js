@@ -1,4 +1,4 @@
-Fliplet.Registry.set('comflipletapp-analytics:1.0:core', function(element, data) {
+Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, data) {
   // Private variables
   var dateTimeNow = new Date();
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
