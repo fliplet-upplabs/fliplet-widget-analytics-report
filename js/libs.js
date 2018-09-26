@@ -1,9 +1,6 @@
 Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, data) {
   // Private variables
   var dateTimeNow = new Date();
-  var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
   var dateSelectMode;
   var analyticsStartDate;
   var analyticsEndDate;
@@ -23,12 +20,6 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
 
   var actionsPerUserTable;
   var actionsPerScreenTable;
-  var sessionsUserTable;
-  var viewsUserTable;
-  var clicksUserTable;
-  var sessionsScreenTable;
-  var viewsScreenTable;
-  var clicksScreenTable;
 
   var compiledAppMetricsTemplate = Handlebars.compile(Fliplet.Widget.Templates['templates.build.app-metrics']());
   var compiledActiveUserTemplate = Handlebars.compile(Fliplet.Widget.Templates['templates.build.active-user']());
@@ -36,6 +27,147 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
 
   var configuration = data;
   var $container = $(element);
+
+  var configTableContext = {
+    'users-sessions': {
+      dataIndex: 0,
+      tableRows: [
+        {
+          key: 'User email',
+          value: '_userEmail'
+        },
+        {
+          key: 'Sessions',
+          value: 'sessionsCount'
+        }
+      ],
+      tableSelector: '.active-users-full-table-sessions',
+      table: undefined,
+      tableColumns: [
+        { data: 'User email' },
+        { data: 'Sessions' }
+      ],
+      otherTableOne: 'users-screen-views',
+      otherTableTwo: 'users-clicks',
+      selectorsToHide: '.active-users-full-table-views, .active-users-full-table-clicks',
+      selectorsToShow: '.active-users-full-table-sessions'
+    },
+    'users-screen-views': {
+      dataIndex: 1,
+      tableRows: [
+        {
+          key: 'User email',
+          value: '_userEmail'
+        },
+        {
+          key: 'Screen views',
+          value: 'count'
+        }
+      ],
+      tableSelector: '.active-users-full-table-views',
+      table: undefined,
+      tableColumns: [
+        { data: 'User email' },
+        { data: 'Screen views' }
+      ],
+      otherTableOne: 'users-sessions',
+      otherTableTwo: 'users-clicks',
+      selectorsToHide: '.active-users-full-table-sessions, .active-users-full-table-clicks',
+      selectorsToShow: '.active-users-full-table-views'
+    },
+    'users-clicks': {
+      dataIndex: 2,
+      tableRows: [
+        {
+          key: 'User email',
+          value: '_userEmail'
+        },
+        {
+          key: 'Clicks',
+          value: 'count'
+        }
+      ],
+      tableSelector: '.active-users-full-table-clicks',
+      table: undefined,
+      tableColumns: [
+        { data: 'User email' },
+        { data: 'Clicks' }
+      ],
+      otherTableOne: 'users-sessions',
+      otherTableTwo: 'users-screen-views',
+      selectorsToHide: '.active-users-full-table-sessions, .active-users-full-table-views',
+      selectorsToShow: '.active-users-full-table-clicks'
+    },
+    'screens-screen-views': {
+      dataIndex: 0,
+      tableRows: [
+        {
+          key: 'Screen name',
+          value: '_pageTitle'
+        },
+        {
+          key: 'Screen views',
+          value: 'count'
+        }
+      ],
+      tableSelector: '.popular-sessions-full-table-views',
+      table: undefined,
+      tableColumns: [
+        { data: 'Screen name' },
+        { data: 'Screen views' }
+      ],
+      otherTableOne: 'screens-sessions',
+      otherTableTwo: 'screens-clicks',
+      selectorsToHide: '.popular-sessions-full-table-sessions, .popular-sessions-full-table-clicks',
+      selectorsToShow: '.popular-sessions-full-table-views'
+    },
+    'screens-sessions': {
+      dataIndex: 1,
+      tableRows: [
+        {
+          key: 'Screen name',
+          value: '_pageTitle'
+        },
+        {
+          key: 'Sessions',
+          value: 'sessionsCount'
+        }
+      ],
+      tableSelector: '.popular-sessions-full-table-sessions',
+      table: undefined,
+      tableColumns: [
+        { data: 'Screen name' },
+        { data: 'Sessions' }
+      ],
+      otherTableOne: 'screens-screen-views',
+      otherTableTwo: 'screens-clicks',
+      selectorsToHide: '.popular-sessions-full-table-views, .popular-sessions-full-table-clicks',
+      selectorsToShow: '.popular-sessions-full-table-sessions'
+    },
+    'screens-clicks': {
+      dataIndex: 2,
+      tableRows: [
+        {
+          key: 'Screen name',
+          value: '_pageTitle'
+        },
+        {
+          key: 'Clicks',
+          value: 'count'
+        }
+      ],
+      tableSelector: '.popular-sessions-full-table-clicks',
+      table: undefined,
+      tableColumns: [
+        { data: 'Screen name' },
+        { data: 'Clicks' }
+      ],
+      otherTableOne: 'screens-sessions',
+      otherTableTwo: 'screens-screen-views',
+      selectorsToHide: '.popular-sessions-full-table-views, .popular-sessions-full-table-sessions',
+      selectorsToShow: '.popular-sessions-full-table-clicks'
+    }
+  };
 
   var chartContainer = $container.find('.chart-holder')[0];
   var chartConfiguration = {
@@ -283,7 +415,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
               } else {
                 // no validation errors so update the dates
                 dateSelectMode = dateValue;
-                _this.calculateAnalyticsDatesCustom(customStartDate, customEndDate);
+                _this.calculateAnalyticsDatesCustom(customStartDate, customEndDate, true);
                 _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
                 _this.getNewDataToRender('day', 5);
                 _this.closeOverlay();
@@ -433,60 +565,72 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
     },
     calculateAnalyticsDatesFor24Hrs: function() {
       analyticsStartDate = new Date();
-      analyticsStartDate.setDate(analyticsEndDate.getDate() - 1);
       analyticsEndDate = new Date();
       analyticsPrevStartDate = new Date();
-      analyticsPrevStartDate.setDate(analyticsStartDate.getDate() - 1);
       analyticsPrevEndDate = new Date();
-      analyticsPrevEndDate.setDate(analyticsEndDate.getDate() - 1);
+      analyticsStartDate = moment(analyticsEndDate).subtract(1, 'days').toDate();
+      analyticsPrevStartDate = moment(analyticsStartDate).subtract(1, 'days').toDate();
+      analyticsPrevEndDate = moment(analyticsEndDate).subtract(1, 'days').toDate();
     },
     calculateAnalyticsDates: function(daysToGoBack) {
+      var _this = this;
       analyticsStartDate = new Date();
-      analyticsStartDate.setDate(analyticsStartDate.getDate() - daysToGoBack);
-      analyticsStartDate.setHours(0, 0, 0, 0);
       analyticsEndDate = new Date();
-      analyticsEndDate.setHours(0, 0, 0, 0);
-      analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
-      analyticsPrevStartDate = new Date(analyticsStartDate);
-      analyticsPrevStartDate.setDate(analyticsPrevStartDate.getDate() - daysToGoBack);
-      analyticsPrevEndDate = new Date(analyticsEndDate);
-      analyticsPrevEndDate.setDate(analyticsPrevEndDate.getDate() - daysToGoBack);
+      _this.calculateAnalyticsDatesCustom(analyticsStartDate, analyticsEndDate, false, 'days', daysToGoBack);
     },
     calculateAnalyticsDatesByMonth: function(monthsToGoBack) {
+      var _this = this;
       analyticsStartDate = new Date();
-      analyticsStartDate.setMonth(analyticsStartDate.getMonth() - monthsToGoBack);
-      analyticsStartDate.setHours(0, 0, 0, 0);
       analyticsEndDate = new Date();
-      analyticsEndDate.setHours(0, 0, 0, 0);
-      analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
-      analyticsPrevStartDate = new Date(analyticsStartDate);
-      analyticsPrevStartDate.setMonth(analyticsPrevStartDate.getMonth() - monthsToGoBack);
-      analyticsPrevEndDate = new Date(analyticsEndDate);
-      analyticsPrevEndDate.setMonth(analyticsPrevEndDate.getMonth() - monthsToGoBack);
+      _this.calculateAnalyticsDatesCustom(analyticsStartDate, analyticsEndDate, false, 'months', monthsToGoBack);
     },
-    calculateAnalyticsDatesCustom: function(customStartDate, customEndDate) {
-      // TONY - calculateAnalyticsDatesCustom should be the most complex function so that the other functions (calculateAnalyticsDatesFor24Hrs, calculateAnalyticsDates and calculateAnalyticsDatesByMonth) can call calculateAnalyticsDatesCustom with unique parameters
+    calculateAnalyticsDatesCustom: function(customStartDate, customEndDate, isCustom, time, timeToGoBack) {
+      var timeDeltaInMillisecs;
+
       analyticsStartDate = new Date(customStartDate);
+
+      if (!isCustom) {
+        analyticsStartDate = moment(analyticsStartDate).subtract(timeToGoBack, time).toDate();
+      }
+
       analyticsStartDate.setHours(0, 0, 0, 0);
       analyticsEndDate = new Date(customEndDate);
-      analyticsEndDate.setDate(analyticsEndDate.getDate() + 1);
+
+      if (isCustom) {
+        analyticsEndDate.setDate(analyticsEndDate.getDate() + 1);
+      }
+      
       analyticsEndDate.setHours(0, 0, 0, 0);
       analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
-      var timeDeltaInMillisecs = analyticsEndDate - analyticsStartDate;
+
+      if (isCustom) {
+        timeDeltaInMillisecs = analyticsEndDate - analyticsStartDate;
+      }
+
       analyticsPrevStartDate = new Date(analyticsStartDate);
-      analyticsPrevStartDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
+
+      if (isCustom) {
+        analyticsPrevStartDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
+      } else {
+        analyticsPrevStartDate = moment(analyticsPrevStartDate).subtract(timeToGoBack, time).toDate();
+      }
+
       analyticsPrevEndDate = new Date(analyticsStartDate);
-      analyticsPrevEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
+
+      if (isCustom) {
+        analyticsPrevEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
+      } else {
+        analyticsPrevEndDate = moment(analyticsPrevEndDate).subtract(timeToGoBack, time).toDate();
+      }
     },
     updateTimeframe: function(startDate, endDate) {
       // Make the dates readable
-      // TONY - All these woudld have been achievable with moment and takes away the need to use monthNames
       var startDateDayD = startDate.getDate();
-      var startDateMonthMMM = monthNames[startDate.getMonth()];
-      var startDateYear = startDate.getFullYear().toString().substr(-2);
+      var startDateMonthMMM = moment(startDate).format('MMM');
+      var startDateYear = moment(startDate).format('YY');
       var endDateDayD = endDate.getDate();
-      var endDateMonthMMM = monthNames[endDate.getMonth()];
-      var endDateYear = endDate.getFullYear().toString().substr(-2);
+      var endDateMonthMMM = moment(endDate).format('MMM');
+      var endDateYear = moment(endDate).format('YY');
       var dateRangeString = startDateDayD + " " + startDateMonthMMM + " '" + startDateYear + " - " + endDateDayD + " " + endDateMonthMMM + " '" + endDateYear;
       $container.find('.analytics-date-range').html(dateRangeString);
     },
@@ -1149,6 +1293,44 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
           }
         });
     },
+    renderTable: function(data, context) {
+      tableDataArray = [];
+      data[configTableContext[context].dataIndex].forEach(function(row) {
+        var newObj = {};
+        newObj[configTableContext[context].tableRows[0].key] = row[configTableContext[context].tableRows[0].value] || null;
+        newObj[configTableContext[context].tableRows[1].key] = row[configTableContext[context].tableRows[1].value] || null;
+        tableDataArray.push(newObj);
+      });
+      if (configTableContext[context].table) {
+        configTableContext[context].table.clear();
+        configTableContext[context].table.rows.add(tableDataArray);
+        configTableContext[context].table.draw();
+      } else {
+        configTableContext[context].table = $(configTableContext[context].tableSelector).DataTable({
+          data: tableDataArray,
+          columns: configTableContext[context].tableColumns,
+          dom: 'Blfrtip',
+          buttons: [
+            'excel'
+          ],
+          responsive: {
+            details: {
+              display: $.fn.dataTable.Responsive.display.childRow
+            }
+          }
+        });
+      }
+      if (configTableContext[configTableContext[context].otherTableOne].table) {
+        configTableContext[configTableContext[context].otherTableOne].table.destroy();
+        configTableContext[configTableContext[context].otherTableOne].table = null;
+      }
+      if (configTableContext[configTableContext[context].otherTableTwo].table) {
+        configTableContext[configTableContext[context].otherTableTwo].table.destroy();
+        configTableContext[configTableContext[context].otherTableTwo].table = null;
+      }
+      $container.find(configTableContext[context].selectorsToShow).removeClass('hidden');
+      $container.find(configTableContext[context].selectorsToHide).addClass('hidden');
+    },
     getMoreActiveUsers: function() {
       var _this = this;
       var buttonSelected = $('[name="users-selector"]:checked').val();
@@ -1156,132 +1338,15 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
       _this.getActiveUserData(analyticsStartDate, analyticsEndDate)
         .then(function(data) {
           switch (buttonSelected) {
-            // TONY - There's a lot of repeated code structure in each of the cases. Some data structure should be created or followed to simplify this
             case 'users-sessions':
-              tableDataArray = [];
-              data[0].forEach(function(row) {
-                var newObj = {
-                  'User email': row._userEmail || null,
-                  'Sessions': row.sessionsCount || null
-                };
-                tableDataArray.push(newObj);
-              });
-              if (sessionsUserTable) {
-                sessionsUserTable.clear();
-                sessionsUserTable.rows.add(tableDataArray);
-                sessionsUserTable.draw();
-              } else {
-                sessionsUserTable = $('.active-users-full-table-sessions').DataTable({
-                  data: tableDataArray,
-                  columns: [
-                    { data: 'User email' },
-                    { data: 'Sessions' }
-                  ],
-                  dom: 'Blfrtip',
-                  buttons: [
-                    'excel'
-                  ],
-                  responsive: {
-                    details: {
-                      display: $.fn.dataTable.Responsive.display.childRow
-                    }
-                  }
-                });
-              }
-              if (viewsUserTable) {
-                viewsUserTable.destroy();
-                viewsUserTable = null;
-              }
-              if (clicksUserTable) {
-                clicksUserTable.destroy();
-                clicksUserTable = null;
-              }
-              $container.find('.active-users-full-table-sessions').removeClass('hidden');
-              $container.find('.active-users-full-table-views, .active-users-full-table-clicks').addClass('hidden');
+              _this.renderTable(data, buttonSelected);
               break;
             case 'users-screen-views':
               tableDataArray = [];
-              data[1].forEach(function(row) {
-                var newObj = {
-                  'User email': row._userEmail || null,
-                  'Screen views': row.count || null
-                };
-                tableDataArray.push(newObj);
-              });
-              if (viewsUserTable) {
-                viewsUserTable.clear();
-                viewsUserTable.rows.add(tableDataArray);
-                viewsUserTable.draw();
-              } else {
-                viewsUserTable = $('.active-users-full-table-views').DataTable({
-                  data: tableDataArray,
-                  columns: [
-                    { data: 'User email' },
-                    { data: 'Screen views' }
-                  ],
-                  dom: 'Blfrtip',
-                  buttons: [
-                    'excel'
-                  ],
-                  responsive: {
-                    details: {
-                      display: $.fn.dataTable.Responsive.display.childRow
-                    }
-                  }
-                });
-              }
-              if (sessionsUserTable) {
-                sessionsUserTable.destroy();
-                sessionsUserTable = null;
-              }
-              if (clicksUserTable) {
-                clicksUserTable.destroy();
-                clicksUserTable = null;
-              }
-              $container.find('.active-users-full-table-sessions').addClass('hidden');
-              $container.find('.active-users-full-table-views, .active-users-full-table-clicks').removeClass('hidden');
+              _this.renderTable(data, buttonSelected);
               break;
             case 'users-clicks':
-              tableDataArray = [];
-              data[2].forEach(function(row) {
-                var newObj = {
-                  'User email': row._userEmail || null,
-                  'Clicks': row.count || null
-                };
-                tableDataArray.push(newObj);
-              });
-              if (clicksUserTable) {
-                clicksUserTable.clear();
-                clicksUserTable.rows.add(tableDataArray);
-                clicksUserTable.draw();
-              } else {
-                clicksUserTable = $('.active-users-full-table-clicks').DataTable({
-                  data: tableDataArray,
-                  columns: [
-                    { data: 'User email' },
-                    { data: 'Clicks' }
-                  ],
-                  dom: 'Blfrtip',
-                  buttons: [
-                    'excel'
-                  ],
-                  responsive: {
-                    details: {
-                      display: $.fn.dataTable.Responsive.display.childRow
-                    }
-                  }
-                });
-              }
-              if (sessionsUserTable) {
-                sessionsUserTable.destroy();
-                sessionsUserTable = null;
-              }
-              if (viewsUserTable) {
-                viewsUserTable.destroy();
-                viewsUserTable = null;
-              }
-              $container.find('.active-users-full-table-sessions').addClass('hidden');
-              $container.find('.active-users-full-table-views, .active-users-full-table-clicks').addClass('hidden');
+              _this.renderTable(data, buttonSelected);
               break;
           }
         });
@@ -1294,130 +1359,13 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
         .then(function(data) {
           switch (buttonSelected) {
             case 'screens-screen-views':
-              tableDataArray = [];
-              data[0].forEach(function(row) {
-                var newObj = {
-                  'Screen name': row._pageTitle || null,
-                  'Screen views': row.count || null
-                };
-                tableDataArray.push(newObj);
-              });
-              if (viewsScreenTable) {
-                viewsScreenTable.clear();
-                viewsScreenTable.rows.add(tableDataArray);
-                viewsScreenTable.draw();
-              } else {
-                viewsScreenTable = $('.popular-sessions-full-table-views').DataTable({
-                  data: tableDataArray,
-                  columns: [
-                    { data: 'Screen name' },
-                    { data: 'Screen views' }
-                  ],
-                  dom: 'Blfrtip',
-                  buttons: [
-                    'excel'
-                  ],
-                  responsive: {
-                    details: {
-                      display: $.fn.dataTable.Responsive.display.childRow
-                    }
-                  }
-                });
-              }
-              if (sessionsScreenTable) {
-                sessionsScreenTable.destroy();
-                sessionsScreenTable = null;
-              }
-              if (clicksScreenTable) {
-                clicksScreenTable.destroy();
-                clicksScreenTable = null;
-              }
-              $container.find('.popular-sessions-full-table-views').removeClass('hidden');
-              $container.find('.popular-sessions-full-table-sessions, .popular-sessions-full-table-clicks').addClass('hidden');
+              _this.renderTable(data, buttonSelected);
               break;
             case 'screens-sessions':
-              tableDataArray = [];
-              data[1].forEach(function(row) {
-                var newObj = {
-                  'Screen name': row._pageTitle || null,
-                  'Sessions': row.sessionsCount || null
-                };
-                tableDataArray.push(newObj);
-              });
-              if (sessionsScreenTable) {
-                sessionsScreenTable.clear();
-                sessionsScreenTable.rows.add(tableDataArray);
-                sessionsScreenTable.draw();
-              } else {
-                sessionsScreenTable = $('.popular-sessions-full-table-sessions').DataTable({
-                  data: tableDataArray,
-                  columns: [
-                    { data: 'Screen name' },
-                    { data: 'Sessions' }
-                  ],
-                  dom: 'Blfrtip',
-                  buttons: [
-                    'excel'
-                  ],
-                  responsive: {
-                    details: {
-                      display: $.fn.dataTable.Responsive.display.childRow
-                    }
-                  }
-                });
-              }
-              if (viewsScreenTable) {
-                viewsScreenTable.destroy();
-                viewsScreenTable = null;
-              }
-              if (clicksScreenTable) {
-                clicksScreenTable.destroy();
-                clicksScreenTable = null;
-              }
-              $container.find('.popular-sessions-full-table-views').addClass('hidden');
-              $container.find('.popular-sessions-full-table-sessions, .popular-sessions-full-table-clicks').addClass('hidden');
+              _this.renderTable(data, buttonSelected);
               break;
             case 'screens-clicks':
-              tableDataArray = [];
-              data[2].forEach(function(row) {
-                var newObj = {
-                  'Screen name': row._pageTitle || null,
-                  'Clicks': row.count || null
-                };
-                tableDataArray.push(newObj);
-              });
-              if (clicksScreenTable) {
-                clicksScreenTable.clear();
-                clicksScreenTable.rows.add(tableDataArray);
-                clicksScreenTable.draw();
-              } else {
-                clicksScreenTable = $('.popular-sessions-full-table-clicks').DataTable({
-                  data: tableDataArray,
-                  columns: [
-                    { data: 'Screen name' },
-                    { data: 'Clicks' }
-                  ],
-                  dom: 'Blfrtip',
-                  buttons: [
-                    'excel'
-                  ],
-                  responsive: {
-                    details: {
-                      display: $.fn.dataTable.Responsive.display.childRow
-                    }
-                  }
-                });
-              }
-              if (viewsScreenTable) {
-                viewsScreenTable.destroy();
-                viewsScreenTable = null;
-              }
-              if (sessionsScreenTable) {
-                sessionsScreenTable.destroy();
-                sessionsScreenTable = null;
-              }
-              $container.find('.popular-sessions-full-table-views').addClass('hidden');
-              $container.find('.popular-sessions-full-table-sessions, .popular-sessions-full-table-clicks').removeClass('hidden');
+              _this.renderTable(data, buttonSelected);
               break;
           }
         });
