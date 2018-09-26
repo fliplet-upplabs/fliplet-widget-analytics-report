@@ -39,6 +39,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
 
   return {
     chartInitialization: function() {
+      // Make the chart option a separate variable that can be accessed as a public property. This way if we are to create custom charts they can have the same style
       timelineChart[configuration.id] = Highcharts.chart($container.find('.chart-holder')[0], {
         'title': {
           'text': '',
@@ -102,7 +103,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
             }
           },
           'offset': -10,
-          'lineColor': '#f4f2f7'
+          'lineColor': '#f4f2f7' // Is this color not themeable?
         }],
         'credits': {
           'enabled': false,
@@ -118,13 +119,13 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
             'fontWeight': 'normal',
             'fontStyle': 'normal'
           },
-          'backgroundColor': '#f4f2f7',
+          'backgroundColor': '#f4f2f7', // Is this color not themeable?
           'spacingLeft': -10,
           'spacingRight': 0,
           'spacingBottom': 0,
           'spacingTop': 5
         },
-        'colors': ['#40c4ff', '#512da8', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'],
+        'colors': ['#40c4ff', '#512da8', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'], // Are these colors not themeable?
         'xAxis': [{
           'title': {
             'style': {
@@ -138,7 +139,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
           'allowDecimals': false,
           'minorTickLength': 0,
           'tickLength': 5,
-          'lineColor': '#f4f2f7'
+          'lineColor': '#f4f2f7' // Is this color not themeable?
         }],
         'tooltip': {
           'borderWidth': 0
@@ -175,12 +176,14 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
         if (typeof $('.pickerEndDate').data('datepicker').dates[0] === 'undefined') {
           $('.custom-start-date-alert').removeClass('active');
         } else {
+          // Use else-if
           if ($('.pickerEndDate').data('datepicker').dates[0] < $('.pickerStartDate').data('datepicker').dates[0]) {
             $('.custom-dates-inputs').css({
               height: 'auto'
             });
             $('.custom-start-date-alert').addClass('active');
           } else {
+            // Use comma to add multiple selectors and call .removeClass() once only
             $('.custom-start-date-alert').removeClass('active');
             $('.custom-end-date-alert').removeClass('active');
           }
@@ -192,12 +195,14 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
         if (typeof $container.find('.pickerStartDate').data('datepicker').dates[0] === 'undefined') {
           $container.find('.custom-end-date-alert').removeClass('active');
         } else {
+          // Use else-if
           if ($container.find('.pickerEndDate').data('datepicker').dates[0] < $container.find('.pickerStartDate').data('datepicker').dates[0]) {
             $container.find('.custom-dates-inputs').css({
               height: 'auto'
             });
             $container.find('.custom-end-date-alert').addClass('active');
           } else {
+            // Use comma to add multiple selectors and call .removeClass() once only
             $container.find('.custom-end-date-alert').removeClass('active');
             $container.find('.custom-start-date-alert').removeClass('active');
           }
@@ -223,54 +228,57 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
           $('body').addClass('freeze');
         })
         .on('click', '.close-button', function() {
+          // You shouldn't need .each() here. Just call .removeClass() after the .find() selector then remove .freeze class from body once
           $container.find('.full-screen-overlay').each(function() {
             $(this).removeClass('active');
             $('body').removeClass('freeze');
           });
         })
         .on('click', '.apply-button', function() {
+          // Assign $(this).parents('.date-picker').find('input[name="date-selector"]:checked').val() to a variable
           switch ($(this).parents('.date-picker').find('input[name="date-selector"]:checked').val()) {
             case 'last-24-hours':
+              // set dateSelectMode to the variable set above, avoiding the need to update the case string in multiple places if necessary
               dateSelectMode = 'last-24-hours';
               _this.calculateAnalyticsDatesFor24Hrs();
               _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
-              _this.getNewDataToRender('hour', 5)
-              _this.closeOverlay()
+              _this.getNewDataToRender('hour', 5) // Missing semicolon
+              _this.closeOverlay() // Missing semicolon
               break;
             case 'last-7-days':
               dateSelectMode = 'last-7-days';
               _this.calculateAnalyticsDates(7);
               _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
-              _this.getNewDataToRender('day', 5)
-              _this.closeOverlay()
+              _this.getNewDataToRender('day', 5) // Missing semicolon
+              _this.closeOverlay() // Missing semicolon
               break;
             case 'last-30-days':
               dateSelectMode = 'last-30-days';
               _this.calculateAnalyticsDates(30);
               _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
               _this.getNewDataToRender('day', 5);
-              _this.closeOverlay()
+              _this.closeOverlay() // Missing semicolon
               break;
             case 'last-90-days':
               dateSelectMode = 'last-90-days';
               _this.calculateAnalyticsDates(90);
               _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
               _this.getNewDataToRender('day', 5);
-              _this.closeOverlay()
+              _this.closeOverlay() // Missing semicolon
               break;
             case 'last-6-months':
               dateSelectMode = 'last-6-months';
               _this.calculateAnalyticsDatesByMonth(6);
               _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
               _this.getNewDataToRender('day', 5);
-              _this.closeOverlay()
+              _this.closeOverlay() // Missing semicolon
               break;
             case 'last-12-months':
               dateSelectMode = 'last-12-months';
               _this.calculateAnalyticsDatesByMonth(12);
               _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
               _this.getNewDataToRender('day', 5);
-              _this.closeOverlay()
+              _this.closeOverlay() // Missing semicolon
               break;
             case 'custom-dates':
               var customStartDate = $(this).parents('.date-picker').find('.pickerStartDate').data('datepicker').dates[0];
@@ -290,7 +298,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 _this.calculateAnalyticsDatesCustom(customStartDate, customEndDate);
                 _this.updateTimeframe(analyticsStartDate, analyticsEndDate);
                 _this.getNewDataToRender('day', 5);
-                _this.closeOverlay()
+                _this.closeOverlay() // Missing semicolon
               }
               break;
           }
@@ -374,6 +382,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
     },
     closeOverlay: function() {
       /*close overlay*/
+      // You don't need to use .each() here
       $container.find('.full-screen-overlay').each(function() {
         $(this).removeClass('active');
         $('body').removeClass('freeze');
@@ -387,8 +396,13 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
         ed: analyticsEndDate,
         psd: analyticsPrevStartDate,
         ped: analyticsPrevEndDate,
-      }
+      } // Missing semicolon
 
+      // App storage (and only app storage) supports setting multiple keys in one go so you can call this just once instead of chaining up two of them
+      // e.g. Fliplet.App.Storage.set({
+      //   key1: value1,
+      //   key2: value2
+      // });
       Fliplet.App.Storage.set('analyticsDateTime', pvDateTimeObject)
         .then(function() {
           /*save analytics data to a persistant variable*/
@@ -439,9 +453,9 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
         });
     },
     calculateAnalyticsDatesFor24Hrs: function() {
-      analyticsEndDate = new Date();
       analyticsStartDate = new Date();
       analyticsStartDate.setDate(analyticsEndDate.getDate() - 1);
+      analyticsEndDate = new Date();
       analyticsPrevStartDate = new Date();
       analyticsPrevStartDate.setDate(analyticsStartDate.getDate() - 1);
       analyticsPrevEndDate = new Date();
@@ -472,13 +486,14 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
       analyticsPrevEndDate.setMonth(analyticsPrevEndDate.getMonth() - monthsToGoBack);
     },
     calculateAnalyticsDatesCustom: function(customStartDate, customEndDate) {
+      // calculateAnalyticsDatesCustom should be the most complex function so that the other functions (calculateAnalyticsDatesFor24Hrs, calculateAnalyticsDates and calculateAnalyticsDatesByMonth) can call calculateAnalyticsDatesCustom with unique parameters
       analyticsStartDate = new Date(customStartDate);
       analyticsStartDate.setHours(0, 0, 0, 0);
       analyticsEndDate = new Date(customEndDate);
       analyticsEndDate.setDate(analyticsEndDate.getDate() + 1);
       analyticsEndDate.setHours(0, 0, 0, 0);
       analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
-      var timeDeltaInMillisecs = analyticsEndDate - analyticsStartDate
+      var timeDeltaInMillisecs = analyticsEndDate - analyticsStartDate // Missing semicolon
       analyticsPrevStartDate = new Date(analyticsStartDate);
       analyticsPrevStartDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
       analyticsPrevEndDate = new Date(analyticsStartDate);
@@ -486,6 +501,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
     },
     updateTimeframe: function(startDate, endDate) {
       /*Make the dates readable*/
+      // All these woudld have been achievable with moment and takes away the need to use monthNames
       var startDateDayD = startDate.getDate();
       var startDateMonthMMM = monthNames[startDate.getMonth()];
       var startDateYear = startDate.getFullYear().toString().substr(-2);
@@ -1161,6 +1177,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
       _this.getActiveUserData(analyticsStartDate, analyticsEndDate)
         .then(function(data) {
           switch (buttonSelected) {
+            // There's a lot of repeated code structure in each of the cases. Some data structure should be created or followed to simplify this
             case 'users-sessions':
               tableDataArray = [];
               data[0].forEach(function(row) {
@@ -1201,6 +1218,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 clicksUserTable = null;
               }
               $container.find('.active-users-full-table-sessions').removeClass('hidden');
+              // Use multiple selectors to call .find() and .addClass() once
               $container.find('.active-users-full-table-views').addClass('hidden');
               $container.find('.active-users-full-table-clicks').addClass('hidden');
               break;
@@ -1243,6 +1261,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 clicksUserTable.destroy();
                 clicksUserTable = null;
               }
+              // Use multiple selectors to call .find() and .addClass() once
               $container.find('.active-users-full-table-sessions').addClass('hidden');
               $container.find('.active-users-full-table-views').removeClass('hidden');
               $container.find('.active-users-full-table-clicks').addClass('hidden');
@@ -1286,6 +1305,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 viewsUserTable.destroy();
                 viewsUserTable = null;
               }
+              // Use multiple selectors to call .find() and .addClass() once
               $container.find('.active-users-full-table-sessions').addClass('hidden');
               $container.find('.active-users-full-table-views').addClass('hidden');
               $container.find('.active-users-full-table-clicks').removeClass('hidden');
@@ -1339,6 +1359,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 clicksScreenTable.destroy();
                 clicksScreenTable = null;
               }
+              // Use multiple selectors to call .find() and .addClass() once
               $container.find('.popular-sessions-full-table-views').removeClass('hidden');
               $container.find('.popular-sessions-full-table-sessions').addClass('hidden');
               $container.find('.popular-sessions-full-table-clicks').addClass('hidden');
@@ -1382,6 +1403,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 clicksScreenTable.destroy();
                 clicksScreenTable = null;
               }
+              // Use multiple selectors to call .find() and .addClass() once
               $container.find('.popular-sessions-full-table-views').addClass('hidden');
               $container.find('.popular-sessions-full-table-sessions').removeClass('hidden');
               $container.find('.popular-sessions-full-table-clicks').addClass('hidden');
@@ -1425,6 +1447,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
                 sessionsScreenTable.destroy();
                 sessionsScreenTable = null;
               }
+              // Use multiple selectors to call .find() and .addClass() once
               $container.find('.popular-sessions-full-table-views').addClass('hidden');
               $container.find('.popular-sessions-full-table-sessions').addClass('hidden');
               $container.find('.popular-sessions-full-table-clicks').removeClass('hidden');
@@ -1438,6 +1461,7 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
       _this.attachEventListeners();
 
       // Selects radio buttons by default
+      // Use multiple selectors and one .find()
       $container.find('[name="timeline-selector"][value="timeline-active-users"]').prop('checked', true);
       $container.find('[name="users-selector"][value="users-sessions"]').prop('checked', true);
       $container.find('[name="screen-selector"][value="screens-screen-views"]').prop('checked', true);
