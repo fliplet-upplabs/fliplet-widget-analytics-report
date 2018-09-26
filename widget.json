@@ -14,7 +14,7 @@
     ],
     "assets": [
       "css/interface.css",
-      "vendor/jquery.debounce.js",
+      "vendor/jquery.debounce.js", // Lodash comes with _.debounce. There shouldn't be a need to use this library here
       "js/interface.js"
     ]
   },
