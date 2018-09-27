@@ -587,36 +587,37 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
     calculateAnalyticsDatesCustom: function(customStartDate, customEndDate, isCustom, time, timeToGoBack) {
       var timeDeltaInMillisecs;
 
+      // Set start date
       analyticsStartDate = new Date(customStartDate);
-
       if (!isCustom) {
         analyticsStartDate = moment(analyticsStartDate).subtract(timeToGoBack, time).toDate();
       }
-
       analyticsStartDate.setHours(0, 0, 0, 0);
-      analyticsEndDate = new Date(customEndDate);
 
+      // Set end date
+      analyticsEndDate = new Date(customEndDate);
       if (isCustom) {
         analyticsEndDate.setDate(analyticsEndDate.getDate() + 1);
       }
-      
       analyticsEndDate.setHours(0, 0, 0, 0);
       analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
 
+      // Calculates the difference between end and start dates
+      // Only applicable to custom dates
       if (isCustom) {
         timeDeltaInMillisecs = analyticsEndDate - analyticsStartDate;
       }
 
+      // Set previous period start date
       analyticsPrevStartDate = new Date(analyticsStartDate);
-
       if (isCustom) {
         analyticsPrevStartDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
       } else {
         analyticsPrevStartDate = moment(analyticsPrevStartDate).subtract(timeToGoBack, time).toDate();
       }
 
+      // Set previous period end date
       analyticsPrevEndDate = new Date(analyticsStartDate);
-
       if (isCustom) {
         analyticsPrevEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
       } else {

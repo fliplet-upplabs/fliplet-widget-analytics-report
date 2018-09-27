@@ -1,7 +1,6 @@
 Fliplet().then(function () {
   var widgetId = Fliplet.Widget.getDefaultId();
   var widgetData = Fliplet.Widget.getData(widgetId) || {};
-  console.log(widgetData);
 
   if (typeof widgetData.heading === 'undefined') {
     $('#heading').val('Analytics');
