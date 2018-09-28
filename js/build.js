@@ -1,7 +1,7 @@
 (function () {
   // Include your namespaced libraries
   var AnalyticsReport = new Fliplet.Registry.get('comflipletanalytics-report:1.0:core');
-  var analyticsReports = {};
+  var analyticsReports = [];
 
   // This function will run for each instance found in the page
   Fliplet.Widget.instance('comflipletanalytics-report-1-0-0', function (data) {
@@ -9,7 +9,11 @@
     var element = this;
 
     // Sample implementation to initialise the widget
-    analyticsReports[data.id] = new AnalyticsReport(element, data);
+    analyticsReports.push({
+      id: data.id,
+      uuid: data.uuid,
+      instance: new AnalyticsReport(element, data)
+    });
   });
 
   Fliplet.Widget.register('AnalyticsReport', function () {
@@ -18,25 +22,26 @@
         throw new Error('No reports found.');
       }
 
-      options = options || {};
-      var id = options.id;
-      if (Object.keys(analyticsReports).length > 1 && !id) {
-        throw new Error('There are multiple reports on the page. An id must be provided.');
-      }
-
       var report;
+      options = options || {};
 
-      if (Object.keys(analyticsReports).length === 1) {
+      if (Object.keys(analyticsReports).length === 1 && false) {
         report = analyticsReports[Object.keys(analyticsReports)[0]];
+      } else if (options.id) {
+        report = _.find(analyticsReports, { id: parseInt(options.id, 10) });
+      } else if (options.uuid) {
+        report = _.find(analyticsReports, { uuid: parseInt(options.uuid, 10) });
+      } else if (typeof options.index !== 'undefined') {
+        report = analyticsReports[parseInt(options.index), 10];
       } else {
-        report = analyticsReports[id];
+        throw new Error('There are multiple reports on the page. An id/uuid/index must be provided.');
       }
 
       if (!report) {
-        throw new Error('Report not found. Please use a different id.');
+        throw new Error('Report not found.');
       }
 
-      return report;
+      return report.instance;
     }
 
     return {
