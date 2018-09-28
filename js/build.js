@@ -9,9 +9,7 @@
     var element = this;
 
     // Sample implementation to initialise the widget
-    var analyticsReport = new AnalyticsReport(element, data);
-    analyticsReport.start();
-    analyticsReports[data.id] = analyticsReport;
+    analyticsReports[data.id] = new AnalyticsReport(element, data);
   });
 
   Fliplet.Widget.register('AnalyticsReport', function () {

@@ -1413,9 +1413,10 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
     getDataFromPersistantVariable();    
   }
 
+  start();
+
   return {
     getChartConfig: getChartConfig,
-    getChart: getChart,
-    start: start
+    getChart: getChart
   }
 });
