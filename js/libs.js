@@ -587,40 +587,39 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
     calculateAnalyticsDatesCustom: function(customStartDate, customEndDate, isCustom, time, timeToGoBack) {
       var timeDeltaInMillisecs;
 
-      // Set start date
-      analyticsStartDate = new Date(customStartDate);
-      if (!isCustom) {
-        analyticsStartDate = moment(analyticsStartDate).subtract(timeToGoBack, time).toDate();
-      }
-      analyticsStartDate.setHours(0, 0, 0, 0);
-
-      // Set end date
-      analyticsEndDate = new Date(customEndDate);
       if (isCustom) {
+        // Set start date
+        analyticsStartDate = new Date(customStartDate);
+        analyticsStartDate.setHours(0, 0, 0, 0);
+        // Set end date
+        analyticsEndDate = new Date(customEndDate);
         analyticsEndDate.setDate(analyticsEndDate.getDate() + 1);
-      }
-      analyticsEndDate.setHours(0, 0, 0, 0);
-      analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
-
-      // Calculates the difference between end and start dates
-      // Only applicable to custom dates
-      if (isCustom) {
+        analyticsEndDate.setHours(0, 0, 0, 0);
+        analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
+        // Calculates the difference between end and start dates
         timeDeltaInMillisecs = analyticsEndDate - analyticsStartDate;
-      }
-
-      // Set previous period start date
-      analyticsPrevStartDate = new Date(analyticsStartDate);
-      if (isCustom) {
+        // Set previous period start date
+        analyticsPrevStartDate = new Date(analyticsStartDate);
         analyticsPrevStartDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
-      } else {
-        analyticsPrevStartDate = moment(analyticsPrevStartDate).subtract(timeToGoBack, time).toDate();
-      }
-
-      // Set previous period end date
-      analyticsPrevEndDate = new Date(analyticsStartDate);
-      if (isCustom) {
+        // Set previous period end date
+        analyticsPrevEndDate = new Date(analyticsStartDate);
         analyticsPrevEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - timeDeltaInMillisecs);
+        // Set previous period start date
+        analyticsPrevStartDate = new Date(analyticsStartDate);
       } else {
+        // Set start date
+        analyticsStartDate = new Date(customStartDate);
+        analyticsStartDate = moment(analyticsStartDate).subtract(timeToGoBack, time).toDate();
+        analyticsStartDate.setHours(0, 0, 0, 0);
+        // Set end date
+        analyticsEndDate = new Date(customEndDate);
+        analyticsEndDate.setHours(0, 0, 0, 0);
+        analyticsEndDate.setMilliseconds(analyticsEndDate.getMilliseconds() - 1);
+        // Set previous period start date
+        analyticsPrevStartDate = new Date(analyticsStartDate);
+        analyticsPrevStartDate = moment(analyticsPrevStartDate).subtract(timeToGoBack, time).toDate();
+        // Set previous period end date
+        analyticsPrevEndDate = new Date(analyticsStartDate);
         analyticsPrevEndDate = moment(analyticsPrevEndDate).subtract(timeToGoBack, time).toDate();
       }
     },
