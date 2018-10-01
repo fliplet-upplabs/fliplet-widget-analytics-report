@@ -10,11 +10,11 @@
   "interface": {
     "dependencies": [
       "fliplet-core",
-      "fliplet-studio-ui"
+      "fliplet-studio-ui",
+      "lodash"
     ],
     "assets": [
       "css/interface.css",
-      "vendor/jquery.debounce.js",
       "js/interface.js"
     ]
   },

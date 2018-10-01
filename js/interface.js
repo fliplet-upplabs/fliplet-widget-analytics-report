@@ -1,6 +1,10 @@
 Fliplet().then(function () {
-  $(window).on('resize', Fliplet.Widget.autosize);
   var widgetId = Fliplet.Widget.getDefaultId();
+  var widgetData = Fliplet.Widget.getData(widgetId) || {};
+
+  if (typeof widgetData.heading === 'undefined') {
+    $('#heading').val('Analytics');
+  }
 
   function save(notifyComplete){
     Fliplet.Widget.save({
@@ -19,7 +23,7 @@ Fliplet().then(function () {
     save(true);
   });
 
-  $('#heading').on('keyup change paste', $.debounce(function() {
+  $('#heading').on('keyup change paste', _.debounce(function() {
     save();
   }, 500));
 

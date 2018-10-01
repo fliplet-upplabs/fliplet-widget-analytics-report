@@ -1,1 +1,1 @@
-# fliplet-widget-app-analytics
+# fliplet-widget-analytics-report
