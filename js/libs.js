@@ -1209,22 +1209,23 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
       })
       .then(function(data) {
         var pageEvents = _.filter(data, function(row) {
-          return row.type === 'app.analytics.event'
+          return row.type === 'app.analytics.event' || row.type === 'app.analytics.pageView';
         });
 
         var pageEventsByScreen = _.groupBy(pageEvents, 'data._userEmail');
 
         var tableDataArray = [];
         for (var prop in pageEventsByScreen) {
-          var newObj = {};
           // skip loop if the property is from prototype
           if (!pageEventsByScreen.hasOwnProperty(prop)) continue;
 
           pageEventsByScreen[prop].forEach(function(event) {
+            var newObj = {};
             newObj['User email'] = prop;
-            newObj['Event category'] = event.data.category || null;
-            newObj['Event action'] = event.data.action || null;
+            newObj['Event category'] = event.type === 'app.analytics.pageView' ? 'app_screen' : event.data.category || null;
+            newObj['Event action'] = event.type === 'app.analytics.pageView' ? 'screen_view' : event.data.action || null;
             newObj['Event label'] = event.data.label || null;
+            newObj['Screen'] = event.data._pageTitle || null;
             tableDataArray.push(newObj);
           });
         }
@@ -1240,7 +1241,8 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
               { data: 'User email' },
               { data: 'Event category' },
               { data: 'Event action' },
-              { data: 'Event label' }
+              { data: 'Event label' },
+              { data: 'Screen' }
             ],
             dom: 'Blfrtip',
             buttons: [
@@ -1267,18 +1269,18 @@ Fliplet.Registry.set('comflipletanalytics-report:1.0:core', function(element, da
       })
       .then(function(data) {
         var pageEvents = _.filter(data, function(row) {
-          return row.type === 'app.analytics.event'
+          return row.type === 'app.analytics.event';
         });
 
         var pageEventsByScreen = _.groupBy(pageEvents, 'data._pageTitle');
 
         var tableDataArray = [];
         for (var prop in pageEventsByScreen) {
-          var newObj = {};
           // skip loop if the property is from prototype
           if (!pageEventsByScreen.hasOwnProperty(prop)) continue;
 
           pageEventsByScreen[prop].forEach(function(event) {
+            var newObj = {};
             newObj['Screen name'] = prop;
             newObj['Event category'] = event.data.category || null;
             newObj['Event action'] = event.data.action || null;
